@@ -1,8 +1,7 @@
-const { DataTypes, BIGINT } = require('sequelize');
-const propertyType = require('./propertyType');
+const { DataTypes } = require('sequelize');
 const sequelize = require('./index').sequelize;
 
-const property = sequelize.define('Property', {
+const Property = sequelize.define('Property', {
   id: {
     type: DataTypes.BIGINT,
     allowNull: false,
@@ -17,7 +16,7 @@ const property = sequelize.define('Property', {
     type: DataTypes.BIGINT,
     allowNull: false,
     references: {
-      model: 'PropertyTypes',
+      model: 'PropertyType',
       key: 'id'
     }
   },
@@ -38,8 +37,17 @@ const property = sequelize.define('Property', {
   },
   size: {
     type: DataTypes.DECIMAL,
+  },
+  owner: {
+    type: DataTypes.BIGINT,
+    allowNull: false,
+    references: {
+      model: 'User',
+      key: 'id'
+    }
   }
 }, {
+  tableName: 'Property',
   timestamps: true,
 });
 

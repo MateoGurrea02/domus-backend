@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./sequelize.js').sequelize;
 
-const userType = sequelize.define('UserType', {
+const UserType = sequelize.define('UserType', {
   id: {
     type: DataTypes.BIGINT,
     allowNull: false,
@@ -14,7 +14,6 @@ const userType = sequelize.define('UserType', {
   }
 }, {
   tableName: 'UserType',
-  timestamps: true
 });
 
-module.exports = userType
+module.exports = UserType

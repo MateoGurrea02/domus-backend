@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./sequelize.js').sequelize;
 
-const rentStatus = sequelize.define('RentStatus', {
+const RentStatus = sequelize.define('RentStatus', {
   id: {
     type: DataTypes.BIGINT,
     allowNull: false,
@@ -13,8 +13,7 @@ const rentStatus = sequelize.define('RentStatus', {
     allowNull: false,
   }
 }, {
-  tableName: 'RentStatus',
-  timestamps: true
+  tableName: 'RentStatus'
 });
 
-module.exports = rentStatus
+module.exports = RentStatus

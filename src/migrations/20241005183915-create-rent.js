@@ -34,7 +34,7 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false
       },
-      monthlyPrice: {
+      monthlyAmount: {
         type: Sequelize.DECIMAL,
       },
       status: {

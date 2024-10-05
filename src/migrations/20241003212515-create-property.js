@@ -40,6 +40,14 @@ module.exports = {
       size: {
         type: Sequelize.DECIMAL,
       },
+      owner:{
+        type: Sequelize.BIGINT,
+        allowNull: false,
+        references: {
+          model: 'User',
+          key: 'id'
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
