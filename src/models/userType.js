@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./sequelize.js').sequelize;
 
-const propertyType = sequelize.define('PropertyType', {
+const userType = sequelize.define('UserType', {
   id: {
     type: DataTypes.BIGINT,
     allowNull: false,
@@ -13,8 +13,8 @@ const propertyType = sequelize.define('PropertyType', {
     allowNull: false,
   }
 }, {
-  tableName: 'PropertyType',
+  tableName: 'UserType',
   timestamps: true
 });
 
-module.exports = propertyType
+module.exports = userType

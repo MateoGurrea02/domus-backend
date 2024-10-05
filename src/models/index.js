@@ -1,12 +1,10 @@
-const Sequelize = require('sequelize');
-const dotenv = require('dotenv');
+const sequelize = require('./sequelize.js').sequelize;
+const Sequelize = require('sequelize')
+const propertyTypes = require('./propertyType')
 
-dotenv.config();
-
-const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
-  host: process.env.DB_HOST,
-  dialect: 'mysql',
-});
+propertyTypes.sync().then((result) =>{
+  console.log(result)
+})
 
 const db = {};
 

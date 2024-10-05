@@ -1,46 +1,50 @@
-const { DataTypes, BIGINT } = require('sequelize');
-const propertyType = require('./propertyType');
+const { DataTypes } = require('sequelize');
 const sequelize = require('./index').sequelize;
 
-const property = sequelize.define('Property', {
+const rent = sequelize.define('Rent', {
   id: {
     type: DataTypes.BIGINT,
     allowNull: false,
     autoIncrement: true,
     primaryKey: true
   },
-  address: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  propertyType: {
+  property: {
     type: DataTypes.BIGINT,
     allowNull: false,
     references: {
-      model: 'PropertyTypes',
+      model: 'Property',
       key: 'id'
     }
   },
-  price: {
-    type: DataTypes.INTEGER,
+  client: {
+    type: DataTypes.BIGINT,
     allowNull: false,
+    references: {
+      model: 'Client',
+      key: 'id'
+    }
+  },
+  startDate: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  finishDate: {
+    type: DataTypes.DATE,
+    allowNull: false
+  },
+  monthlyPrice: {
+    type: DataTypes.DECIMAL,
   },
   status: {
     type: DataTypes.BIGINT,
     allowNull: false,
     references: {
-      model: 'PropertyStatus',
+      model: 'RentStatus',
       key: 'id'
     }
-  },
-  description: {
-    type: DataTypes.TEXT,
-  },
-  size: {
-    type: DataTypes.DECIMAL,
   }
 }, {
   timestamps: true,
 });
 
-module.exports = Property;
+module.exports = rent;
