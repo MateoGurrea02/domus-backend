@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./index').sequelize;
 
-const Rent = sequelize.define('Rent', {
+const Sale = sequelize.define('Sale', {
   id: {
     type: DataTypes.BIGINT,
     allowNull: false,
@@ -24,15 +24,11 @@ const Rent = sequelize.define('Rent', {
       key: 'id'
     }
   },
-  startDate: {
+  date: {
     type: DataTypes.DATE,
     allowNull: false,
   },
-  finishDate: {
-    type: DataTypes.DATE,
-    allowNull: false
-  },
-  monthlyAmount: {
+  amount: {
     type: DataTypes.DECIMAL,
     allowNull: false
   },
@@ -40,13 +36,13 @@ const Rent = sequelize.define('Rent', {
     type: DataTypes.BIGINT,
     allowNull: false,
     references: {
-      model: 'RentStatus',
+      model: 'SaleStatus',
       key: 'id'
     }
   }
 }, {
-    tableName: 'Rent',
+    tableName: 'Sale',
     timestamps: true,
 });
 
-module.exports = Rent;
+module.exports = Sale;

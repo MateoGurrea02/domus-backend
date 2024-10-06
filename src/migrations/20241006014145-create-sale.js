@@ -3,12 +3,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('Rent', {
+    await queryInterface.createTable('Sale', {
       id: {
+        type: Sequelize.BIGINT,
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.BIGINT
+        primaryKey: true
       },
       property: {
         type: Sequelize.BIGINT,
@@ -26,15 +26,11 @@ module.exports = {
           key: 'id'
         }
       },
-      startDate: {
-        type: Sequelize.DATE,
-        allowNull: false
+      date: {
+      type: Sequelize.DATE,
+      allowNull: false,
       },
-      finishDate: {
-        type: Sequelize.DATE,
-        allowNull: false
-      },
-      monthlyAmount: {
+      amount: {
         type: Sequelize.DECIMAL,
         allowNull: false
       },
@@ -42,22 +38,22 @@ module.exports = {
         type: Sequelize.BIGINT,
         allowNull: false,
         references: {
-          model: 'RentStatus',
+          model: 'SaleStatus',
           key: 'id'
         }
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       }
-    })
+  })
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('Rent')
+    await queryInterface.dropTable('Sale')
   }
 };
