@@ -2,8 +2,8 @@ const User = require('../models/user');
 
 const createUser = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
-    const user = await User.create({ name, email, password, role });
+    const { name, email, password, type } = req.body;
+    const user = await User.create({ name, email, password, type });
     res.status(201).json(user);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
