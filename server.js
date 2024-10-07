@@ -5,6 +5,7 @@ const { sequelize } = require('./src/models');
 const userRoutes = require('./src/routes/userRoutes');
 const propertyRoutes = require('./src/routes/propertyRoutes')
 const agentRoutes = require('./src/routes/agentRoutes')
+const clientRoutes = require('./src/routes/clientRoutes')
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use('/api', userRoutes);
 app.use('/api', propertyRoutes);
 app.use('/api', agentRoutes);
+app.use('/api', clientRoutes);
 
 const PORT = process.env.PORT || 4000;
 
