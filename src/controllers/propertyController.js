@@ -7,7 +7,7 @@ const createProperty = async (req, res) => {
     res.status(201).json(property);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
-    res.status(500).json({ error: 'Error creando el usuario' });
+    res.status(500).json({ error: error });
   }
 };
 
@@ -17,7 +17,7 @@ const getProperties = async (req, res) => {
     res.status(200).json(properties);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
-    res.status(500).json({ error: 'Error obteniendo los usuarios' });
+    res.status(500).json({ error: 'Error obteniendo las propiedades' });
   }
 };
 
@@ -28,13 +28,13 @@ const getPropertyById = async (req, res) => {
     const property = await Property.findByPk(id);
 
     if (!property) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
+      return res.status(404).json({ error: 'Propiedad no encontrada' });
     }
 
     res.status(200).json(property);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error obteniendo el usuario' });
+    res.status(500).json({ error: 'Error obteniendo la propiedad' });
   }
 };
 

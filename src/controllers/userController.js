@@ -7,7 +7,7 @@ const createUser = async (req, res) => {
     res.status(201).json(user);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
-    res.status(500).json({ error: 'Error creando el usuario' });
+    res.status(500).json({ error: error });
   }
 };
 

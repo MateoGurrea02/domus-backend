@@ -3,7 +3,7 @@ const sequelize = require('./sequelize.js').sequelize;
 
 const SaleStatus = sequelize.define('SaleStatus', {
   id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: false,
     autoIncrement: true,
     primaryKey: true

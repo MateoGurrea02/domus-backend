@@ -1,19 +1,24 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./sequelize.js').sequelize;
 
-const PropertyType = sequelize.define('PropertyType', {
+const Agent = sequelize.define('Agent', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     autoIncrement: true,
     primaryKey: true
   },
-  type: {
-    type: DataTypes.STRING,
+  user: {
+    type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: 'User',
+      key: 'id'
+    }
   }
 }, {
-  tableName: 'PropertyType',
+  tableName: 'Agent',
+  timestamps: true,
 });
 
-module.exports = PropertyType
+module.exports = Agent

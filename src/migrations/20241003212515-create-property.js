@@ -5,7 +5,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('Property', {
       id: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
@@ -15,7 +15,7 @@ module.exports = {
         allowNull: false,
       },
       propertyType: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'PropertyType',
@@ -27,7 +27,7 @@ module.exports = {
         allowNull: false,
       },
       status: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'PropertyStatus',
@@ -41,7 +41,7 @@ module.exports = {
         type: Sequelize.DECIMAL,
       },
       owner:{
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Agent',
