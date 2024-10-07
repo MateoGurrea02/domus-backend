@@ -1,40 +1,33 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./index').sequelize;
 
-const User = sequelize.define('User', {
+const Client = sequelize.define('Client', {
   id: {
     type: DataTypes.BIGINT,
     allowNull: false,
     autoIncrement: true,
     primaryKey: true
   },
-  name: {
+  dni: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
+  phoneNumber: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-    validate: {
-      isEmail: true,
-    },
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  type: {
+  user: {
     type: DataTypes.BIGINT,
     allowNull: false,
     references: {
-      model: 'UserType',
+      model: 'User',
       key: 'id'
     }
   }
 }, {
-  tableName: 'User',
+  tableName: 'Client',
   timestamps: true,
 });
 
-module.exports = User;
+module.exports = Client;

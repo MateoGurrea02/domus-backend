@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "root1234",
-    "database": "nombre_de_tu_db",
+    "password": "12345678",
+    "database": "domus",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
