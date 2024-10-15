@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
-
+const jwt = require("jsonwebtoken");
+const secretKey = 'secret'
 
 const createUser = async (req, res) => {
   try {
@@ -51,19 +52,37 @@ const login = async (req, res) => {
         email: email
       }
     })
-    const hashPassword = user[0].password
-    bcrypt.compare(password, hashPassword).then(res => {
-      console.log(res)
-    })
+
     if (!user) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
 
-    res.status(200).json({'hola': 'xd'});
+    const hashPassword = user[0].password
+
+    bcrypt.compare(password, hashPassword).then(response => {
+      if (response){
+      const token = jwt.sign({ email }, secretKey, { expiresIn: "1h" });
+      return res.status(200).json({ token });
+    }})
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error obteniendo el usuario' });
   }
 }
 
-module.exports = { createUser, getUsers, getUserById, login };
+const verifyToken = async (req, res, next) => {
+  let { token } = req.body;
+  if (!token) {
+    return res.status(401).json({ message: "Token not provied" });
+  }
+  try {
+    const payload = jwt.verify(token, secretKey);
+    email = payload.email;
+    return res.status(200).json({ email: email })
+  } catch (error) {
+    return res.status(403).json({ message: "Token not valid" });
+  }
+}
+
+module.exports = { createUser, getUsers, getUserById, login, verifyToken };
