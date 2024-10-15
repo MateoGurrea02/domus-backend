@@ -8,7 +8,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.BIGINT
+        type: Sequelize.INTEGER
       },
       name: {
         type: Sequelize.STRING,
@@ -24,7 +24,7 @@ module.exports = {
         allowNull: false,
       },
       type: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'UserType',

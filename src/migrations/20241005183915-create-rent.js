@@ -8,23 +8,25 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.BIGINT
+        type: Sequelize.INTEGER
       },
       property: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Property',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE', 
       },
       client: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Client',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE', 
       },
       startDate: {
         type: Sequelize.DATE,
@@ -39,7 +41,7 @@ module.exports = {
         allowNull: false
       },
       status: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'RentStatus',

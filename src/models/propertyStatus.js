@@ -3,7 +3,7 @@ const sequelize = require('./sequelize.js').sequelize;
 
 const PropertyStatus = sequelize.define('PropertyStatus', {
   id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: false,
     autoIncrement: true,
     primaryKey: true

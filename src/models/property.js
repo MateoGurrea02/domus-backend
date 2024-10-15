@@ -3,7 +3,7 @@ const sequelize = require('./index').sequelize;
 
 const Property = sequelize.define('Property', {
   id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: false,
     autoIncrement: true,
     primaryKey: true
@@ -13,7 +13,7 @@ const Property = sequelize.define('Property', {
     allowNull: false,
   },
   propertyType: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: 'PropertyType',
@@ -25,7 +25,7 @@ const Property = sequelize.define('Property', {
     allowNull: false,
   },
   status: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: 'PropertyStatus',
@@ -39,7 +39,7 @@ const Property = sequelize.define('Property', {
     type: DataTypes.DECIMAL,
   },
   owner: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: 'User',

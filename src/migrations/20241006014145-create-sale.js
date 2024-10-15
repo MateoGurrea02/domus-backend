@@ -5,26 +5,28 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('Sale', {
       id: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
       },
       property: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Property',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE', 
       },
       client: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Client',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE', 
       },
       date: {
       type: Sequelize.DATE,
@@ -35,7 +37,7 @@ module.exports = {
         allowNull: false
       },
       status: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'SaleStatus',

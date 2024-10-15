@@ -3,7 +3,7 @@ const sequelize = require('./index').sequelize;
 
 const Client = sequelize.define('Client', {
   id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: false,
     autoIncrement: true,
     primaryKey: true
@@ -18,7 +18,7 @@ const Client = sequelize.define('Client', {
     allowNull: false,
   },
   user: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: 'User',

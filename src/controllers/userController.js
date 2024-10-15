@@ -1,13 +1,19 @@
 const User = require('../models/user');
+const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
+const secretKey = 'secret'
 
 const createUser = async (req, res) => {
   try {
-    const { name, email, password, type } = req.body;
+    let { name, email, password, type } = req.body;
+    
+    password = await bcrypt.hash(password, 10)
+    console.log(password)
     const user = await User.create({ name, email, password, type });
     res.status(201).json(user);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
-    res.status(500).json({ error: 'Error creando el usuario' });
+    res.status(500).json({ error: error });
   }
 };
 
@@ -38,4 +44,45 @@ const getUserById = async (req, res) => {
   }
 };
 
-module.exports = { createUser, getUsers, getUserById };
+const login = async (req, res) => {
+  try {
+    let { email, password } = req.body;
+    const user = await User.findAll({
+      where: {
+        email: email
+      }
+    })
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    const hashPassword = user[0].password
+
+    bcrypt.compare(password, hashPassword).then(response => {
+      if (response){
+      const token = jwt.sign({ email }, secretKey, { expiresIn: "1h" });
+      return res.status(200).json({ token });
+    }})
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error obteniendo el usuario' });
+  }
+}
+
+const verifyToken = async (req, res, next) => {
+  let { token } = req.body;
+  if (!token) {
+    return res.status(401).json({ message: "Token not provied" });
+  }
+  try {
+    const payload = jwt.verify(token, secretKey);
+    email = payload.email;
+    return res.status(200).json({ email: email })
+  } catch (error) {
+    return res.status(403).json({ message: "Token not valid" });
+  }
+}
+
+module.exports = { createUser, getUsers, getUserById, login, verifyToken };

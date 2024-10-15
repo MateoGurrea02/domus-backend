@@ -3,13 +3,13 @@ const sequelize = require('./index').sequelize;
 
 const Rent = sequelize.define('Rent', {
   id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: false,
     autoIncrement: true,
     primaryKey: true
   },
   property: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: 'Property',
@@ -17,7 +17,7 @@ const Rent = sequelize.define('Rent', {
     }
   },
   client: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: 'Client',
@@ -37,7 +37,7 @@ const Rent = sequelize.define('Rent', {
     allowNull: false
   },
   status: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: 'RentStatus',
