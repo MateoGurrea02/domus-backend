@@ -16,7 +16,8 @@ module.exports = {
         references: {
           model: 'Property',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE', 
       },
       client: {
         type: Sequelize.INTEGER,
@@ -24,7 +25,8 @@ module.exports = {
         references: {
           model: 'Client',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE', 
       },
       date: {
       type: Sequelize.DATE,

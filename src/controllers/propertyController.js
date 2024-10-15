@@ -38,4 +38,23 @@ const getPropertyById = async (req, res) => {
   }
 };
 
-module.exports = { createProperty, getProperties, getPropertyById };
+const deleteProperty = async (req, res) => {
+  try {
+    const { id } = req.params;
+    Property.destroy({
+      where: {
+        id: id
+      }
+    }).then(() => {
+      return res.status(200).json({response: 'Propiedad borrada'})
+    }).catch((error) => {
+      res.status(500).json({ error: error });
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error obteniendo la propiedad' });
+  }
+};
+
+module.exports = { createProperty, getProperties, getPropertyById, deleteProperty };

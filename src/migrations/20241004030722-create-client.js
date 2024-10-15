@@ -22,10 +22,12 @@ module.exports = {
       user: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        unique: true,
         references: {
           model: 'User',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE', 
       },
       createdAt: {
         allowNull: false,

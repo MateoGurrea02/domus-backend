@@ -46,7 +46,8 @@ module.exports = {
         references: {
           model: 'Agent',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE', 
       },
       createdAt: {
         allowNull: false,
