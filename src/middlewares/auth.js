@@ -14,7 +14,7 @@ const auth = async (req, res, next) => {
     const email = payload.email;
     next()
   }
-  catch{
+  catch (error){
     let message;
     switch (error.name) {
         case 'JsonWebTokenError':

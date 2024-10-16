@@ -9,7 +9,7 @@ function isAdmin(req, res, next) {
     }
     try {
         const payload = jwt.verify(headerAuth, process.env.JWT_SECRET);
-        const isAdmin = payload.user.type === 1;
+        const isAdmin = payload.type == 1;
         if(!isAdmin){
             return res.status('401').json({ message: 'You not authorized' });
         }
@@ -25,9 +25,9 @@ function isAdmin(req, res, next) {
                 break;
             }
         }
-        return res.status(401).json({ token, message});
+        return res.status(401).json({ headerAuth, message});
     }
     return next();
 }
 
-module.exports = isAdmin;
+module.exports = { isAdmin }
