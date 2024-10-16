@@ -6,6 +6,6 @@ router.post('/users', createUser);
 router.get('/users', getUsers);
 router.get('/users/:id', getUserById);
 router.post('/login', login)
-router.post('/verifyToken', verifyToken)
+router.get('/verifyToken', verifyToken)
 
 module.exports = router;
