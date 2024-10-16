@@ -74,7 +74,7 @@ const login = async (req, res) => {
 }
 
 const verifyToken = async (req, res) => {
-  const header = req.header("token") || "";
+  const header = req.header("authorization") || "";
   const token = header.split(" ")[0]
 
   if (!token) {
