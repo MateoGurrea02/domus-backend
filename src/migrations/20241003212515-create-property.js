@@ -40,7 +40,7 @@ module.exports = {
       size: {
         type: Sequelize.DECIMAL,
       },
-      owner:{
+      agent:{
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {

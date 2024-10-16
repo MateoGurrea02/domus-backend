@@ -2,8 +2,8 @@ const Property = require('../models/property')
 
 const createProperty = async (req, res) => {
   try {
-    const { address, propertyType, price, status, description, size, owner } = req.body;
-    const property = await Property.create({ address, propertyType, price, status, description, size, owner });
+    const { address, propertyType, price, status, description, size, agent } = req.body;
+    const property = await Property.create({ address, propertyType, price, status, description, size, agent });
     res.status(201).json(property);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
@@ -37,6 +37,19 @@ const getPropertyById = async (req, res) => {
     res.status(500).json({ error: 'Error obteniendo la propiedad' });
   }
 };
+
+const getPropertyByAgent = async (req, res) =>{
+  try{
+    const { agentId } = req.params;
+    const user = await Property.findAll({
+      where: {
+        email: email
+      }
+    })
+  }catch (error){
+
+  }
+}
 
 const deleteProperty = async (req, res) => {
   try {
