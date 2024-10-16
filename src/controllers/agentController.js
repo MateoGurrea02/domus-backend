@@ -1,4 +1,5 @@
 const Agent = require('../models/agent')
+const { auth } = require('../authenticators/auth')
 
 const createAgent = async (req, res) => {
   try {
