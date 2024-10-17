@@ -1,6 +1,8 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
+const dotenv = require('dotenv');
+dotenv.config();
 const secretKey = 'secret'
 
 const createUser = async (req, res) => {
@@ -8,7 +10,6 @@ const createUser = async (req, res) => {
     let { name, email, password, type } = req.body;
     
     password = await bcrypt.hash(password, 10)
-    console.log(password)
     const user = await User.create({ name, email, password, type });
     res.status(201).json(user);
   } catch (error) {
@@ -60,10 +61,11 @@ const login = async (req, res) => {
 
     bcrypt.compare(password, hashPassword).then(response => {
       if (response){
+        const id = user[0].id
         const type = user[0].type
         const name = user[0].name
-
-        const token = jwt.sign({ email, type, name }, secretKey, { expiresIn: "1h" });
+        
+        const token = jwt.sign({ id, email, type, name }, secretKey, { expiresIn: "1h" });
         return res.status(200).json({ token });
     }})
     
@@ -82,14 +84,15 @@ const verifyToken = async (req, res) => {
   }
 
   try {
-    const payload = jwt.verify(token, secretKey);
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const id = payload.id
     const email = payload.email;
     const type = payload.type
     const name = payload.name
 
-    return res.status(200).json({ email: email, type: type, name: name })
+    return res.status(200).json({ id:id, email: email, type: type, name: name })
   } catch (error) {
-    return res.status(403).json({ message: "Token not valid" });
+    return res.status(403).json({ message: "Token not valid", error:error });
   }
 }
 

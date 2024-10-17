@@ -4,7 +4,7 @@ const { auth } = require('../middlewares/auth')
 const { isAdmin } = require('../middlewares/isAdmin')
 const router = express.Router();
 
-router.post('/agents', auth, isAdmin, createAgent);
+router.post('/agents', isAdmin, createAgent);
 router.get('/agents', isAdmin, getAgents);
 router.get('/agents/:id', getAgentById);
 
