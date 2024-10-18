@@ -5,9 +5,27 @@ const jwt = require("jsonwebtoken");
 
 const createRent = async (req, res) => {
   try {
+    const headerAuth = req.headers['authorization']
+    const payload = jwt.verify(headerAuth, process.env.JWT_SECRET);
+    const userId = payload.id
+    const agent = await Agent.findAll({
+      where: {
+        user: userId
+      }
+    })
+    const agentId = agent[0].id
+
     const { property, client, startDate, finishDate, monthlyAmount, status } = req.body;
-    const rent = await Rent.create({ property, client, startDate, finishDate, monthlyAmount, status });
-    res.status(201).json(rent);
+
+    const propertyModel = await Property.findByPk(property)
+
+    if (propertyModel.agent == agentId){
+      const rent = await Rent.create({ property, client, startDate, finishDate, monthlyAmount, status });
+      res.status(201).json(rent);
+    }
+    else{
+      throw 'El agente no es dueño de la propiedad'
+    }
   } catch (error) {
     console.error(error); // Imprime el error en la consola
     res.status(500).json({ error: error });
