@@ -4,7 +4,17 @@ const jwt = require("jsonwebtoken");
 
 const createProperty = async (req, res) => {
   try {
-    const { address, propertyType, price, status, description, size, agent } = req.body;
+    const headerAuth = req.headers['authorization']
+    const payload = jwt.verify(headerAuth, process.env.JWT_SECRET);
+    const userId = payload.id
+    const agentModel = await Agent.findAll({
+      where: {
+        user: userId
+      }
+    })
+    const agent = agentModel[0].id
+    
+    const { address, propertyType, price, status, description, size } = req.body;
     const property = await Property.create({ address, propertyType, price, status, description, size, agent });
     res.status(201).json(property);
   } catch (error) {
