@@ -1,4 +1,7 @@
 const Rent = require('../models/rent')
+const Agent = require('../models/agent')
+const Property = require('../models/property')
+const jwt = require("jsonwebtoken");
 
 const createRent = async (req, res) => {
   try {
@@ -37,4 +40,42 @@ const getRentById = async (req, res) => {
   }
 };
 
-module.exports = { createRent, getRents, getRentById };
+const getRentsByAgent = async (req, res) =>{
+  try{
+    const headerAuth = req.headers['authorization']
+    const payload = jwt.verify(headerAuth, process.env.JWT_SECRET);
+    const userId = payload.id
+
+    const agent = await Agent.findAll({
+      where: {
+        user: userId
+      }
+    })
+
+    const agentId = agent[0].id
+
+    const properties = await Property.findAll({
+      where: {
+        agent: agentId
+      }
+    })
+
+    let propertiesId = []
+    properties.map((property) => {
+      propertiesId.push(property.id)
+    })
+
+    const rents = await Rent.findAll({
+      where: {
+        property: propertiesId
+      }
+    })
+
+    res.status(200).json(rents);
+  }catch (error){
+    console.error(error); // Imprime el error en la consola
+    res.status(500).json({ error: 'Error obteniendo los alquileres' });
+  }
+}
+
+module.exports = { createRent, getRents, getRentById, getRentsByAgent };
