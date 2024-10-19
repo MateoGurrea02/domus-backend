@@ -2,18 +2,11 @@ const Rent = require('../models/rent')
 const Agent = require('../models/agent')
 const Property = require('../models/property')
 const jwt = require("jsonwebtoken");
+const { getAgentId } = require('../functions/getAgentId')
 
 const createRent = async (req, res) => {
   try {
-    const headerAuth = req.headers['authorization']
-    const payload = jwt.verify(headerAuth, process.env.JWT_SECRET);
-    const userId = payload.id
-    const agent = await Agent.findAll({
-      where: {
-        user: userId
-      }
-    })
-    const agentId = agent[0].id
+    const agentId = await getAgentId(req)
 
     const { property, client, startDate, finishDate, monthlyAmount, status } = req.body;
 
@@ -60,15 +53,7 @@ const getRentById = async (req, res) => {
 
 const getRentsByAgent = async (req, res) =>{
   try{
-    const headerAuth = req.headers['authorization']
-    const payload = jwt.verify(headerAuth, process.env.JWT_SECRET);
-    const userId = payload.id
-    const agent = await Agent.findAll({
-      where: {
-        user: userId
-      }
-    })
-    const agentId = agent[0].id
+    const agentId = await getAgentId(req)
 
     const properties = await Property.findAll({
       where: {
@@ -94,4 +79,35 @@ const getRentsByAgent = async (req, res) =>{
   }
 }
 
-module.exports = { createRent, getRents, getRentById, getRentsByAgent };
+const updateRent = async (req, res) => {
+  try {
+    const agentId = await getAgentId(req)
+    const { id } = req.params;
+    const rent = await Rent.findByPk(id);
+    
+    const { property, client, startDate, finishDate, monthlyAmount, status } = req.body;
+
+    const propertyModel = await Property.findByPk(property)
+
+    if (propertyModel.agent == agentId){
+      rent.set({
+        property: property,
+        client: client,
+        startDate: startDate,
+        finishDate: finishDate,
+        monthlyAmount: monthlyAmount,
+        status: status
+      })
+      await rent.save()
+      res.status(200).json(rent);
+    }
+    else{
+      throw 'El agente no es dueño de la propiedad'
+    }
+  } catch (error) {
+    console.error(error); // Imprime el error en la consola
+    res.status(500).json({ error: error });
+  }
+}
+
+module.exports = { createRent, getRents, getRentById, getRentsByAgent, updateRent };
