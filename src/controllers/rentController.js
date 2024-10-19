@@ -84,12 +84,13 @@ const updateRent = async (req, res) => {
     const agentId = await getAgentId(req)
     const { id } = req.params;
     const rent = await Rent.findByPk(id);
+    const propertyRent = await Property.findByPk(rent.property)
     
     const { property, client, startDate, finishDate, monthlyAmount, status } = req.body;
 
     const propertyModel = await Property.findByPk(property)
 
-    if (propertyModel.agent == agentId){
+    if (propertyModel.agent == agentId && propertyRent.agent == agentId){
       rent.set({
         property: property,
         client: client,
@@ -110,4 +111,24 @@ const updateRent = async (req, res) => {
   }
 }
 
-module.exports = { createRent, getRents, getRentById, getRentsByAgent, updateRent };
+const deleteRent = async (req, res) =>{
+  try{
+    const agentId = await getAgentId(req)
+    const { id } = req.params;
+    const rent = await Rent.findByPk(id);
+    const property = await Property.findByPk(rent.property)
+
+    if (property.agent == agentId){
+      await rent.destroy()
+      res.status(200).json({message: 'El alquiler fue borrado'});
+    }
+    else{
+      throw 'El agente no es dueño de la propiedad'
+    }
+  } catch (error){
+    console.error(error); // Imprime el error en la consola
+    res.status(500).json({ error: error });
+  }
+}
+
+module.exports = { createRent, getRents, getRentById, getRentsByAgent, updateRent, deleteRent };
