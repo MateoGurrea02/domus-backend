@@ -1,6 +1,7 @@
 const Property = require('../models/property')
 const Agent = require('../models/agent')
 const jwt = require("jsonwebtoken");
+const { Op } = require('sequelize');
 
 const createProperty = async (req, res) => {
   try {
@@ -112,4 +113,38 @@ const deleteProperty = async (req, res) => {
   }
 };
 
-module.exports = { createProperty, getProperties, getPropertyById, getPropertiesByAgent, deleteProperty };
+const filterProperty = async (req, res) => {
+  try{
+    const filters = req.body;
+    let where = {}
+    Object.keys(filters).forEach(key => {
+      const value = filters[key];
+      
+      // Check if the value is an object (for complex conditions like { gte, lte })
+      if (typeof value === 'object' && value !== null) {
+        where[key] = {};
+        
+        // Dynamically add conditions like gte, lte, etc.
+        Object.keys(value).forEach(condition => {
+          if (condition === 'gte') {
+            where[key][Op.gte] = value[condition];
+          }
+          if (condition === 'lte') {
+            where[key][Op.lte] = value[condition];
+          }
+        });
+      } else {
+        // If the value is a simple value, just add it as a direct match
+        where[key] = value;
+      }
+    });
+    const properties = await Property.findAll({
+      where: where
+    });
+    return res.status(200).json(properties);
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error', error: error.message });
+  }
+}
+
+module.exports = { createProperty, getProperties, getPropertyById, getPropertiesByAgent, deleteProperty, filterProperty };
