@@ -10,7 +10,7 @@ router.post('/properties/filter', filterProperty)
 router.get('/properties', getProperties);
 router.get('/properties/find/:id', getPropertyById);
 router.get('/properties/agent/', isAgent, getPropertiesByAgent);
-router.post('/properties/update/:id', isAgent, updateProperty)
+router.put('/properties/update/:id', isAgent, updateProperty)
 router.delete('/properties/:propertyId', isAgent, deleteProperty);
 
 module.exports = router;
