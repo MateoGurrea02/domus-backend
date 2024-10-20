@@ -108,4 +108,24 @@ const updateSale = async (req, res) => {
   }
 }
 
-module.exports = { createSale, getSales, getSaleById, getSalesByAgent, updateSale };
+const deleteSale = async (req, res) =>{
+  try{
+    const agentId = await getAgentId(req)
+    const { id } = req.params;
+    const sale = await Sale.findByPk(id);
+    const property = await Property.findByPk(sale.property)
+
+    if (property.agent == agentId){
+      await sale.destroy()
+      res.status(200).json({message: 'La venta fue borrada'});
+    }
+    else{
+      throw 'El agente no es dueño de la propiedad'
+    }
+  } catch (error){
+    console.error(error); // Imprime el error en la consola
+    res.status(500).json({ error: error });
+  }
+}
+
+module.exports = { createSale, getSales, getSaleById, getSalesByAgent, updateSale, deleteSale };

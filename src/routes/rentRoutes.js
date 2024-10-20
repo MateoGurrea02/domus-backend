@@ -9,4 +9,5 @@ router.get('/rents/find/:id', getRentById);
 router.get('/rents/agent', isAgent, getRentsByAgent)
 router.put('/rents/:id', isAgent, updateRent)
 router.delete('/rents/:id', isAgent, deleteRent)
+
 module.exports = router;
