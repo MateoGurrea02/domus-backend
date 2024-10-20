@@ -2,6 +2,7 @@ const Property = require('../models/property')
 const Agent = require('../models/agent')
 const jwt = require("jsonwebtoken");
 const { Op } = require('sequelize');
+const { getAgentId } = require('../functions/getAgentId')
 
 const createProperty = async (req, res) => {
   try {
@@ -77,6 +78,35 @@ const getPropertiesByAgent = async (req, res) =>{
   }
 }
 
+const updateProperty = async (req, res) => {
+  try {
+    const agentId = await getAgentId(req)
+    const { id } = req.params;
+    const property = await Property.findByPk(id);
+    
+    const { address, propertyType, price, status, description, size } = req.body;
+
+    if (property.agent == agentId){
+      property.set({
+        address: address,
+        propertyType: propertyType,
+        price: price,
+        status: status,
+        description: description,
+        size: size,
+      })
+      await property.save()
+      res.status(200).json(property);
+    }
+    else{
+      throw 'El agente no es dueño de la propiedad'
+    }
+  } catch (error) {
+    console.error(error); // Imprime el error en la consola
+    res.status(500).json({ error: error });
+  }
+}
+
 const deleteProperty = async (req, res) => {
   try {
     const headerAuth = req.headers['authorization']
@@ -147,4 +177,4 @@ const filterProperty = async (req, res) => {
   }
 }
 
-module.exports = { createProperty, getProperties, getPropertyById, getPropertiesByAgent, deleteProperty, filterProperty };
+module.exports = { createProperty, getProperties, getPropertyById, getPropertiesByAgent, deleteProperty, filterProperty, updateProperty };
