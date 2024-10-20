@@ -38,7 +38,7 @@ const Property = sequelize.define('Property', {
   size: {
     type: DataTypes.DECIMAL,
   },
-  owner: {
+  agent: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
