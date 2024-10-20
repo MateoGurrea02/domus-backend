@@ -1,19 +1,10 @@
 const Sale = require('../models/sale')
-const Agent = require('../models/agent')
 const Property = require('../models/property')
-const jwt = require("jsonwebtoken");
+const { getAgentId } = require('../functions/getAgentId')
 
 const createSale = async (req, res) => {
   try {
-    const headerAuth = req.headers['authorization']
-    const payload = jwt.verify(headerAuth, process.env.JWT_SECRET);
-    const userId = payload.id
-    const agent = await Agent.findAll({
-      where: {
-        user: userId
-      }
-    })
-    const agentId = agent[0].id
+    const agentId = await getAgentId(req)
 
     const { property, client, date, amount, status } = req.body;
 
@@ -60,15 +51,7 @@ const getSaleById = async (req, res) => {
 
 const getSalesByAgent = async (req, res) => {
   try{
-    const headerAuth = req.headers['authorization']
-    const payload = jwt.verify(headerAuth, process.env.JWT_SECRET);
-    const userId = payload.id
-    const agent = await Agent.findAll({
-      where: {
-        user: userId
-      }
-    })
-    const agentId = agent[0].id
+    const agentId = await getAgentId(req)
 
     const properties = await Property.findAll({
       where: {
@@ -94,4 +77,35 @@ const getSalesByAgent = async (req, res) => {
   }
 } 
 
-module.exports = { createSale, getSales, getSaleById, getSalesByAgent };
+const updateSale = async (req, res) => {
+  try {
+    const agentId = await getAgentId(req)
+    const { id } = req.params;
+    const sale = await Sale.findByPk(id);
+    const propertySale = await Property.findByPk(sale.property)
+    
+    const { property, client, date, amount, status } = req.body;
+
+    const propertyModel = await Property.findByPk(property)
+
+    if (propertyModel.agent == agentId && propertySale.agent == agentId){
+      sale.set({
+        property: property,
+        client: client,
+        date: date,
+        amount: amount,
+        status: status
+      })
+      await sale.save()
+      res.status(200).json(sale);
+    }
+    else{
+      throw 'El agente no es dueño de la propiedad'
+    }
+  } catch (error) {
+    console.error(error); // Imprime el error en la consola
+    res.status(500).json({ error: error });
+  }
+}
+
+module.exports = { createSale, getSales, getSaleById, getSalesByAgent, updateSale };

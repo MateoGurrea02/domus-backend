@@ -1,7 +1,5 @@
 const Rent = require('../models/rent')
-const Agent = require('../models/agent')
 const Property = require('../models/property')
-const jwt = require("jsonwebtoken");
 const { getAgentId } = require('../functions/getAgentId')
 
 const createRent = async (req, res) => {

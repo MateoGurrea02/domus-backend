@@ -1,20 +1,10 @@
 const Property = require('../models/property')
-const Agent = require('../models/agent')
-const jwt = require("jsonwebtoken");
 const { Op } = require('sequelize');
 const { getAgentId } = require('../functions/getAgentId')
 
 const createProperty = async (req, res) => {
   try {
-    const headerAuth = req.headers['authorization']
-    const payload = jwt.verify(headerAuth, process.env.JWT_SECRET);
-    const userId = payload.id
-    const agentModel = await Agent.findAll({
-      where: {
-        user: userId
-      }
-    })
-    const agent = agentModel[0].id
+    const agent = await getAgentId(req)
     
     const { address, propertyType, price, status, description, size } = req.body;
     const property = await Property.create({ address, propertyType, price, status, description, size, agent });
@@ -53,17 +43,7 @@ const getPropertyById = async (req, res) => {
 
 const getPropertiesByAgent = async (req, res) =>{
   try{
-    const headerAuth = req.headers['authorization']
-    const payload = jwt.verify(headerAuth, process.env.JWT_SECRET);
-    const userId = payload.id
-
-    const agent = await Agent.findAll({
-      where: {
-        user: userId
-      }
-    })
-
-    const agentId = agent[0].id
+    const agentId = await getAgentId(req)
 
     const properties = await Property.findAll({
       where: {
@@ -109,17 +89,8 @@ const updateProperty = async (req, res) => {
 
 const deleteProperty = async (req, res) => {
   try {
-    const headerAuth = req.headers['authorization']
-    const payload = jwt.verify(headerAuth, process.env.JWT_SECRET);
-    const userId = payload.id
+    const agentId = await getAgentId(req)
 
-    const agent = await Agent.findAll({
-      where: {
-        user: userId
-      }
-    })
-
-    const agentId = agent[0].id
     const { propertyId } = req.params;
     const property = await Property.findByPk(propertyId)
     if (agentId == property.agent){
