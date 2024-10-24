@@ -6,7 +6,6 @@ Este proyecto es una API construida con Node.js, Express, Sequelize y MySQL.
 
 - Node.js instalado
 - MySQL en ejecución
-- Clonar este repositorio
 
 ## Instalación
 
@@ -30,45 +29,18 @@ PORT = 4000
 ```
 
 ### 4. Crea la base de datos en MySQL:
-Ubicados dentro de la carpeta del proyecto ejecutamos node createDatabase.js
-
-// Conexión sin especificar una base de datos concreta
-const sequelize = new Sequelize('', 'root', 'root1234', {
-    host: 'localhost',
-    dialect: 'mysql',
-});
-
-En este fragmento de código debemos respetar nuestro usuario y contraseña de MySql
+Ubicados dentro de la carpeta del proyecto ejecutamos `cd src` y luego `node createDatabase.js`
 
 ### 5. Ejecutar Migraciones  
-Ejecuta las migraciones para crear las tablas en la base de datos:  
-npx sequelize-cli db:migrate  
+Ejecuta las migraciones para crear las tablas en la base de datos desde el directorio src:  
+`npx sequelize-cli db:migrate`  
 
 ### 6. Ejecutar seeders
-npx sequelize-cli db:seed:all
+`npx sequelize-cli db:seed:all`
 
 ### 7. Ejecutar el Servidor  
 Inicia el servidor con el siguiente comando:  
-npm start o npm run dev  
-
-
-
-## Comandos de Sequelize
-#### 1. Crear un nuevo modelo  
-Para crear un modelo y su migración correspondiente:  
-npx sequelize-cli model:generate --name <ModelName> --attributes field1:type,field2:type  
-
-##### Ejemplo:   
-npx sequelize-cli model:generate --name Product --attributes name:string,price:float
-
-#### 2. Ejecutar migraciones  
-npx sequelize-cli db:migrate
-
-### 3. Deshacer la última migración  
-npx sequelize-cli db:migrate:undo
-
-### 4. Crear un nuevo seeders
-npx sequelize-cli seed:generate --name create-user
+`npm start`
 
 ## Estructura del Proyecto
 ├── src  
@@ -80,7 +52,7 @@ npx sequelize-cli seed:generate --name create-user
 │   │   └── [timestamp]-create-user.js  # Migración para crear la tabla de usuarios  
 │   ├── models  
 │   │   ├── index.js               # Configuración de la conexión de Sequelize  
-│   │   └── user.js                # Definición del modelo User  
+│   │   └── model.js               # Definición de cada modelo
 │   ├── routes  
 │   │   └── userRoutes.js          # Rutas para la API de usuarios  
 ├── .env                           # Variables de entorno (DB credentials, etc.)  
@@ -88,5 +60,20 @@ npx sequelize-cli seed:generate --name create-user
 ├── package.json                   # Dependencias del proyecto y scripts  
 └── server.js                      # Configuración del servidor Express  
 
+## Endpoints
+Para todos los endpoints de la API usaremos la dirección `127.0.0.1:*nuestropuerto*/api/` o `localhost:*nuestropuerto*/api/`.
 
+En las rutas que necesitemos un token para acceder lo enviaremos mediante el header `Authorization`
 
+1. Usuarios:
+    1. POST `/register` para registrar un usuario. Necesitamos lo siguiente en el body: "name", "email", "password", "type" (Clave foranea del tipo de usuario).
+    2. POST `/login` para recibir nuestro token de sesión. Necesitamos enviar lo siguiente en el body: "email", "password"
+    3. GET `/users` para recibir un listado de todos los usuarios. Necesitamos enviar un token de usuario tipo admin.
+    4. GET `/users/:id` para recibir los datos de un usuario. Necesitamos enviar un token de usuario tipo admin.
+    5. GET `/verifyToken` para recibir la información de nuestro token. Necesitamos enviar un token de cualquier tipo de usuario.
+
+2. Clientes:
+    1. POST `/clients` para registrar un nuevo cliente. Necesitamos enviar un token de usuario tipo admin o agente y lo siguiente en el body: "dni", "phoneNumber", "user" (Clave foranea del usuario).
+    2. GET `/clients` para recibir un listado de todos los clientes. Necesitamos token de usuario tipo admin o de agente.
+    router.get('/clients/:id', getClientById);
+    3. GET `/clients/:id` para recibir los datos de un cliente en específico.
