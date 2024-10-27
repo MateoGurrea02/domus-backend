@@ -1,9 +1,15 @@
 const Client = require('../models/client')
+const User = require('../models/user')
 
 const createClient = async (req, res) => {
   try {
     const { dni, phoneNumber, user } = req.body;
     const client = await Client.create({ dni, phoneNumber, user });
+    const userModel = await User.findByPk(id=user)
+    userModel.set({
+      type: 3
+    })
+    await userModel.save()
     res.status(201).json(client);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
