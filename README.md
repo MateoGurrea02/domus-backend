@@ -164,5 +164,16 @@ En las rutas que necesitemos un token para acceder lo enviaremos mediante el hea
     
     1. GET '/propertyType' para recibir un listado de todos los tipos de propiedades.
     
-    2. GET '/userType' para recibir un listado de todos los tipos de usuarios. Necesitamos enviar un token de tipo admin o agente.
+    2. GET '/userType' para recibir un listado de todos los tipos de usuarios.
+</details>
+
+<details>
+    
+<summary>8. Estados</summary>
+    
+    1. GET '/propertyStatus' para recibir un listado de todos los estados de propiedades.
+    
+    2. GET '/rentStatus' para recibir un listado de todos los estados de alquileres.
+
+    3. GET '/saleStatus' para recibir un listado de todos los estados de ventas.
 </details>

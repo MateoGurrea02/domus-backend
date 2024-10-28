@@ -14,6 +14,7 @@ const PropertyType = sequelize.define('PropertyType', {
   }
 }, {
   tableName: 'PropertyType',
+  timestamps: false
 });
 
 module.exports = PropertyType

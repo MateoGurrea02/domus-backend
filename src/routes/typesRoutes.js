@@ -3,7 +3,7 @@ const { getPropertyTypes, getUserTypes } = require('../controllers/typesControll
 const router = express.Router();
 const { isAdminOrAgent } = require('../middlewares/isAdminOrAgent')
 
-router.post('/propertyType', getPropertyTypes);
-router.get('/userType', isAdminOrAgent, getUserTypes);
+router.get('/propertyType', getPropertyTypes);
+router.get('/userType', getUserTypes);
 
 module.exports = router;
