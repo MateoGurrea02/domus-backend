@@ -145,9 +145,9 @@ En las rutas que necesitemos un token para acceder lo enviaremos mediante el hea
     
 <summary>6. Ventas</summary>
 
-    1. POST '/sales' para registrar una nueva venta. Necesitamos enviar un token de tipo agente, el cual debe ser dueño de la propiedad que elijamos y lo siguiente en el body: "property" (Clave foránea de la propiedad), "client" (Clave foránea del cliente), date, amount, status (Clave foránea al estado de la venta).
+    1. POST '/sales' para registrar una nueva venta. Necesitamos enviar un token de tipo agente, el cual debe ser dueño de la propiedad que elijamos y lo siguiente en el body: "property" (Clave foránea de la propiedad), "client" (Clave foránea del cliente), amount, status (Clave foránea al estado de la venta).
     
-    2. GET '/sale' para recibir un listado de todas las ventas.
+    2. GET '/sales' para recibir un listado de todas las ventas.
     
     3. GET '/sales/find/:id' para recibir los datos de una venta en particular.
     
