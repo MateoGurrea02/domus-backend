@@ -147,7 +147,7 @@ En las rutas que necesitemos un token para acceder lo enviaremos mediante el hea
 
     1. POST '/sales' para registrar una nueva venta. Necesitamos enviar un token de tipo agente, el cual debe ser dueño de la propiedad que elijamos y lo siguiente en el body: "property" (Clave foránea de la propiedad), "client" (Clave foránea del cliente), date, amount, status (Clave foránea al estado de la venta).
     
-    2. GET '/sale' para recibir un listado de todas las ventas'.
+    2. GET '/sale' para recibir un listado de todas las ventas.
     
     3. GET '/sales/find/:id' para recibir los datos de una venta en particular.
     
@@ -156,4 +156,13 @@ En las rutas que necesitemos un token para acceder lo enviaremos mediante el hea
     5. PUT '/sales/:id' para actualizar una venta. Necesitamos enviar un token de tipo agente, el cual debe ser dueño de la propiedad que elijamos y a la que la cambiemos y lo siguiente en el body: "property" (Clave foránea de la propiedad), "client" (Clave foránea del cliente), date, amount, status (Clave foránea del estado de la venta).
     
     6. DELETE '/sales/:id' para borrar un alquiler. Necesitamos enviar un token de tipo agente, el cual debe ser dueño de la propiedad de la venta que elijamos.
+</details>
+
+<details>
+    
+<summary>7. Tipos</summary>
+    
+    1. GET '/propertyType' para recibir un listado de todos los tipos de propiedades.
+    
+    2. GET '/userType' para recibir un listado de todos los tipos de usuarios. Necesitamos enviar un token de tipo admin o agente.
 </details>
