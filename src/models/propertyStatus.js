@@ -13,7 +13,8 @@ const PropertyStatus = sequelize.define('PropertyStatus', {
     allowNull: false,
   }
 }, {
-  tableName: 'PropertyStatus'
+  tableName: 'PropertyStatus',
+  timestamps: false
 });
 
 module.exports = PropertyStatus
