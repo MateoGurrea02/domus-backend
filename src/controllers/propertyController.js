@@ -52,7 +52,29 @@ const getProperties = async (req, res) => {
 const getPropertyById = async (req, res) => {
   try {
     const { id } = req.params;
-    const property = await Property.findByPk(id);
+    const property = await Property.findByPk(id,
+      {
+        attributes: ['id', 'address', 'price', 'description', 'size'],
+        include: [
+        {
+          model: PropertyType,
+          attributes: ['id', 'type']
+        },
+        {
+          model: PropertyStatus,
+          attributes: ['id', 'status']
+        },
+        {
+          model: Agent,
+          include: [{
+            model: User,
+            attributes: ['name']
+          }],
+          attributes: ['id', 'user' ]
+        }
+      ]
+      }
+    );
 
     if (!property) {
       return res.status(404).json({ error: 'Propiedad no encontrada' });
@@ -70,6 +92,25 @@ const getPropertiesByAgent = async (req, res) =>{
     const agentId = await getAgentId(req)
 
     const properties = await Property.findAll({
+      attributes: ['id', 'address', 'price', 'description', 'size'],
+      include: [
+      {
+        model: PropertyType,
+        attributes: ['id', 'type']
+      },
+      {
+        model: PropertyStatus,
+        attributes: ['id', 'status']
+      },
+      {
+        model: Agent,
+        include: [{
+          model: User,
+          attributes: ['name']
+        }],
+        attributes: ['id', 'user' ]
+      }
+      ],
       where: {
         agent: agentId
       }
