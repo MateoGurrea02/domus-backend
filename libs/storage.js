@@ -12,9 +12,5 @@ const storage = multer.diskStorage({
     }
   })
   
-const upload = multer({ storage: storage }).fields([
-  { name: 'image', maxCount: 1 },   // Handle file upload for 'image'
-  { name: 'id', maxCount: 1 }       // Handle 'id' field as a form-data field
-])
-
+const upload = multer({ storage: storage })
 module.exports = upload

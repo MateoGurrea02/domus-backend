@@ -15,7 +15,7 @@ router.get('/properties/find/:id', getPropertyById);
 router.get('/properties/agent/', isAgent, getPropertiesByAgent);
 router.put('/properties/update/:id', isAgent, updateProperty)
 router.delete('/properties/:propertyId', isAgent, deleteProperty);
-router.post('/image', upload, uploadImage)
+router.post('/image', upload.single('image'), uploadImage)
 router.get('/image', (req, res) => {
     const imagePath = path.join(__dirname, '../../media/img/image1730066757244.png');
     res.sendFile(imagePath)
