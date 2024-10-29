@@ -13,7 +13,8 @@ const RentStatus = sequelize.define('RentStatus', {
     allowNull: false,
   }
 }, {
-  tableName: 'RentStatus'
+  tableName: 'RentStatus',
+  timestamps: false,
 });
 
 module.exports = RentStatus

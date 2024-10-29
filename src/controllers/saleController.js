@@ -12,8 +12,8 @@ const createSale = async (req, res) => {
   try {
     const agentId = await getAgentId(req)
 
-    const { property, client, date, amount, status } = req.body;
-
+    const { property, client, amount, status } = req.body;
+    const date = Date.now()
     const propertyModel = await Property.findByPk(property)
 
     if (propertyModel.agent == agentId){
