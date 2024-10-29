@@ -1,4 +1,6 @@
 const Agent = require('../models/agent')
+const User = require('../models/user')
+const UserType = require('../models/userType')
 
 const createAgent = async (req, res) => {
   try {
@@ -13,7 +15,15 @@ const createAgent = async (req, res) => {
 
 const getAgents = async (req, res) => {
   try {
-    const agents = await Agent.findAll();
+    const agents = await Agent.findAll({
+      attributes: ['id'],
+      include: [
+      {
+        model: User,
+        attributes: ['id', 'name', 'email']
+      }
+    ]
+    });
     res.status(200).json(agents);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
@@ -24,7 +34,17 @@ const getAgents = async (req, res) => {
 const getAgentById = async (req, res) => {
   try {
     const { id } = req.params;
-    const agent = await Agent.findByPk(id);
+    const agent = await Agent.findByPk(id,
+      {
+        attributes: ['id'],
+        include: [
+        {
+          model: User,
+          attributes: ['id', 'name', 'email']
+        }
+      ]
+      }
+    );
 
     if (!agent) {
       return res.status(404).json({ error: 'Agente no encontrado' });
