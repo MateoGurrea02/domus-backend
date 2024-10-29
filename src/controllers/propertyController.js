@@ -36,11 +36,10 @@ const getProperties = async (req, res) => {
         model: Agent,
         include: [{
           model: User,
-          attributes: ['name', 'createdAt', 'updatedAt']
+          attributes: ['id', 'name', 'createdAt', 'updatedAt']
         }],
-        attributes: ['id', 'user', 'createdAt', 'updatedAt']
-      }
-    ]
+        attributes: ['id', 'createdAt', 'updatedAt']
+      }]
     });
     res.status(200).json(properties);
   } catch (error) {
@@ -68,12 +67,11 @@ const getPropertyById = async (req, res) => {
           model: Agent,
           include: [{
             model: User,
-            attributes: ['name', 'createdAt', 'updatedAt']
+            attributes: ['id', 'name', 'createdAt', 'updatedAt']
           }],
-          attributes: ['id', 'user', 'createdAt', 'updatedAt']
+          attributes: ['id', 'createdAt', 'updatedAt']
         }
-      ]
-      }
+      ]}
     );
 
     if (!property) {
@@ -106,11 +104,10 @@ const getPropertiesByAgent = async (req, res) =>{
         model: Agent,
         include: [{
           model: User,
-          attributes: ['name', 'createdAt', 'updatedAt']
+          attributes: ['id', 'name', 'createdAt', 'updatedAt']
         }],
-        attributes: ['id', 'user', 'createdAt', 'updatedAt']
-      }
-      ],
+        attributes: ['id', 'createdAt', 'updatedAt']
+      }],
       where: {
         agent: agentId
       }
@@ -205,6 +202,24 @@ const filterProperty = async (req, res) => {
       }
     });
     const properties = await Property.findAll({
+      attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
+      include: [
+      {
+        model: PropertyType,
+        attributes: ['id', 'type']
+      },
+      {
+        model: PropertyStatus,
+        attributes: ['id', 'status']
+      },
+      {
+        model: Agent,
+        include: [{
+          model: User,
+          attributes: ['id', 'name', 'createdAt', 'updatedAt']
+        }],
+        attributes: ['id', 'createdAt', 'updatedAt']
+      }],
       where: where
     });
     return res.status(200).json(properties);
