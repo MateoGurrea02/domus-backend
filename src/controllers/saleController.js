@@ -1,6 +1,12 @@
 const Sale = require('../models/sale')
 const Property = require('../models/property')
 const { getAgentId } = require('../functions/getAgentId')
+const Client = require('../models/client')
+const SaleStatus = require('../models/saleStatus')
+const PropertyType = require('../models/propertyType')
+const PropertyStatus = require('../models/propertyStatus')
+const Agent = require('../models/agent')
+const User = require('../models/user')
 
 const createSale = async (req, res) => {
   try {
@@ -25,7 +31,43 @@ const createSale = async (req, res) => {
 
 const getSales = async (req, res) => {
   try {
-    const sales = await Sale.findAll();
+    const sales = await Sale.findAll({
+      attributes: ['id', 'date', 'amount'],
+      include: [
+      {
+        model: Property,
+        attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
+        include: [
+        {
+          model: PropertyType,
+          attributes: ['id', 'type']
+        },
+        {
+          model: PropertyStatus,
+          attributes: ['id', 'status']
+        },
+        {
+          model: Agent,
+          include: [{
+            model: User,
+            attributes: ['id', 'name', 'createdAt', 'updatedAt']
+          }],
+          attributes: ['id', 'createdAt', 'updatedAt']
+        }
+      ]},
+      {
+        model: SaleStatus,
+        attributes: ['id', 'type']
+      },
+      {
+        model: Client,
+        include: [{
+          model: User,
+          attributes: ['name', 'createdAt', 'updatedAt']
+        }],
+        attributes: ['id', 'user', 'createdAt', 'updatedAt']
+      }]
+    });
     res.status(200).json(sales);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
@@ -36,7 +78,45 @@ const getSales = async (req, res) => {
 const getSaleById = async (req, res) => {
   try {
     const { id } = req.params;
-    const sale = await Sale.findByPk(id);
+    const sale = await Sale.findByPk(id,
+      {
+        attributes: ['id', 'date', 'amount'],
+        include: [
+        {
+          model: Property,
+          attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
+          include: [
+          {
+            model: PropertyType,
+            attributes: ['id', 'type']
+          },
+          {
+            model: PropertyStatus,
+            attributes: ['id', 'status']
+          },
+          {
+            model: Agent,
+            include: [{
+              model: User,
+              attributes: ['id', 'name', 'createdAt', 'updatedAt']
+            }],
+            attributes: ['id', 'createdAt', 'updatedAt']
+          }
+        ]},
+        {
+          model: SaleStatus,
+          attributes: ['id', 'type']
+        },
+        {
+          model: Client,
+          include: [{
+            model: User,
+            attributes: ['name', 'createdAt', 'updatedAt']
+          }],
+          attributes: ['id', 'user', 'createdAt', 'updatedAt']
+        }]
+      }
+    );
 
     if (!sale) {
       return res.status(404).json({ error: 'Alquiler no encontrado' });
@@ -65,6 +145,33 @@ const getSalesByAgent = async (req, res) => {
     })
 
     const sales = await Sale.findAll({
+        attributes: ['id', 'date', 'amount'],
+        include: [
+        {
+          model: Property,
+          attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
+          include: [
+          {
+            model: PropertyType,
+            attributes: ['id', 'type']
+          },
+          {
+            model: PropertyStatus,
+            attributes: ['id', 'status']
+          }
+        ]},
+        {
+          model: SaleStatus,
+          attributes: ['id', 'type']
+        },
+        {
+          model: Client,
+          include: [{
+            model: User,
+            attributes: ['name', 'createdAt', 'updatedAt']
+          }],
+          attributes: ['id', 'user', 'createdAt', 'updatedAt']
+        }],
       where: {
         property: propertiesId
       }
