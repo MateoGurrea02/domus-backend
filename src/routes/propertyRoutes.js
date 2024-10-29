@@ -1,5 +1,7 @@
+const path = require('path');
 const express = require('express');
 const { createProperty, getProperties, getPropertyById, getPropertiesByAgent, deleteProperty, filterProperty, updateProperty } = require('../controllers/propertyController');
+const { uploadImage } = require('../controllers/imageController')
 const router = express.Router();
 const { isAgent } = require('../middlewares/isAgent')
 const upload = require('../../libs/storage')
@@ -13,6 +15,10 @@ router.get('/properties/find/:id', getPropertyById);
 router.get('/properties/agent/', isAgent, getPropertiesByAgent);
 router.put('/properties/update/:id', isAgent, updateProperty)
 router.delete('/properties/:propertyId', isAgent, deleteProperty);
-router.post('/image', upload.single('image'), getProperties)
+router.post('/image', upload, uploadImage)
+router.get('/image', (req, res) => {
+    const imagePath = path.join(__dirname, '../../media/img/image1730066757244.png');
+    res.sendFile(imagePath)
+})
 
 module.exports = router;

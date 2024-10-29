@@ -8,10 +8,13 @@ const storage = multer.diskStorage({
         const fileName = file.originalname
         const dot = fileName.lastIndexOf('.')
         const extention = fileName.slice(dot)
-      cb(null, `${file.fieldname}${Date.now()}${extention}`)
+      cb(null, `${Date.now()}${extention}`)
     }
   })
   
-const upload = multer({ storage: storage })
+const upload = multer({ storage: storage }).fields([
+  { name: 'image', maxCount: 1 },   // Handle file upload for 'image'
+  { name: 'id', maxCount: 1 }       // Handle 'id' field as a form-data field
+])
 
 module.exports = upload
