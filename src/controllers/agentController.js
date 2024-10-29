@@ -16,11 +16,11 @@ const createAgent = async (req, res) => {
 const getAgents = async (req, res) => {
   try {
     const agents = await Agent.findAll({
-      attributes: ['id'],
+      attributes: ['id', 'createdAt', 'updatedAt'],
       include: [
       {
         model: User,
-        attributes: ['id', 'name', 'email']
+        attributes: ['id', 'name', 'email', 'createdAt', 'updatedAt']
       }
     ]
     });
@@ -36,11 +36,11 @@ const getAgentById = async (req, res) => {
     const { id } = req.params;
     const agent = await Agent.findByPk(id,
       {
-        attributes: ['id'],
+        attributes: ['id', 'createdAt', 'updatedAt'],
         include: [
         {
           model: User,
-          attributes: ['id', 'name', 'email']
+          attributes: ['id', 'name', 'email', 'createdAt', 'updatedAt']
         }
       ]
       }

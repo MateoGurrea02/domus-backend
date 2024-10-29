@@ -22,7 +22,7 @@ const createProperty = async (req, res) => {
 const getProperties = async (req, res) => {
   try {
     const properties = await Property.findAll({
-      attributes: ['id', 'address', 'price', 'description', 'size'],
+      attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
       include: [
       {
         model: PropertyType,
@@ -36,9 +36,9 @@ const getProperties = async (req, res) => {
         model: Agent,
         include: [{
           model: User,
-          attributes: ['name']
+          attributes: ['name', 'createdAt', 'updatedAt']
         }],
-        attributes: ['id', 'user' ]
+        attributes: ['id', 'user', 'createdAt', 'updatedAt']
       }
     ]
     });
@@ -54,7 +54,7 @@ const getPropertyById = async (req, res) => {
     const { id } = req.params;
     const property = await Property.findByPk(id,
       {
-        attributes: ['id', 'address', 'price', 'description', 'size'],
+        attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
         include: [
         {
           model: PropertyType,
@@ -68,9 +68,9 @@ const getPropertyById = async (req, res) => {
           model: Agent,
           include: [{
             model: User,
-            attributes: ['name']
+            attributes: ['name', 'createdAt', 'updatedAt']
           }],
-          attributes: ['id', 'user' ]
+          attributes: ['id', 'user', 'createdAt', 'updatedAt']
         }
       ]
       }
@@ -92,7 +92,7 @@ const getPropertiesByAgent = async (req, res) =>{
     const agentId = await getAgentId(req)
 
     const properties = await Property.findAll({
-      attributes: ['id', 'address', 'price', 'description', 'size'],
+      attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
       include: [
       {
         model: PropertyType,
@@ -106,9 +106,9 @@ const getPropertiesByAgent = async (req, res) =>{
         model: Agent,
         include: [{
           model: User,
-          attributes: ['name']
+          attributes: ['name', 'createdAt', 'updatedAt']
         }],
-        attributes: ['id', 'user' ]
+        attributes: ['id', 'user', 'createdAt', 'updatedAt']
       }
       ],
       where: {

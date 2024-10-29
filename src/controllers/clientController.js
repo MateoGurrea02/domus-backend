@@ -19,7 +19,15 @@ const createClient = async (req, res) => {
 
 const getClients = async (req, res) => {
   try {
-    const agents = await Client.findAll();
+    const agents = await Client.findAll({
+      attributes: ['id', 'dni', 'phoneNumber', 'createdAt', 'updatedAt'],
+      include: [
+      {
+        model: User,
+        attributes: ['id', 'name', 'email', 'createdAt', 'updatedAt']
+      }
+    ]
+    });
     res.status(200).json(agents);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
@@ -30,7 +38,17 @@ const getClients = async (req, res) => {
 const getClientById = async (req, res) => {
   try {
     const { id } = req.params;
-    const client = await Client.findByPk(id);
+    const client = await Client.findByPk(id,
+      {
+        attributes: ['id', 'dni', 'phoneNumber', 'createdAt', 'updatedAt'],
+        include: [
+        {
+          model: User,
+          attributes: ['id', 'name', 'email', 'createdAt', 'updatedAt']
+        }
+      ]
+      }
+    );
 
     if (!client) {
       return res.status(404).json({ error: 'Cliente no encontrado' });
