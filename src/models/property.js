@@ -1,5 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./index').sequelize;
+const PropertyType = require('./propertyType');  
+const PropertyStatus = require('./propertyStatus')
+const Agent = require('./agent')
 
 const Property = sequelize.define('Property', {
   id: {
@@ -16,7 +19,7 @@ const Property = sequelize.define('Property', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'PropertyType',
+      model: PropertyType,
       key: 'id'
     }
   },
@@ -28,7 +31,7 @@ const Property = sequelize.define('Property', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'PropertyStatus',
+      model: PropertyStatus,
       key: 'id'
     }
   },
@@ -42,7 +45,7 @@ const Property = sequelize.define('Property', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'User',
+      model: Agent,
       key: 'id'
     }
   }
@@ -50,5 +53,14 @@ const Property = sequelize.define('Property', {
   tableName: 'Property',
   timestamps: true,
 });
+
+Property.belongsTo(PropertyType, { foreignKey: 'propertyType' });
+PropertyType.hasMany(Property, { foreignKey: 'propertyType' });
+
+Property.belongsTo(PropertyStatus, { foreignKey: 'status' });
+PropertyStatus.hasMany(Property, { foreignKey: 'status' });
+
+Property.belongsTo(Agent, { foreignKey: 'agent' });
+Agent.hasMany(Property, { foreignKey: 'agent' });
 
 module.exports = Property;

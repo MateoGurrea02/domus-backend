@@ -1,6 +1,10 @@
 const Property = require('../models/property')
 const { Op } = require('sequelize');
 const { getAgentId } = require('../functions/getAgentId')
+const PropertyType = require('../models/propertyType')
+const PropertyStatus = require('../models/propertyStatus')
+const Agent = require('../models/agent')
+const User = require('../models/user')
 
 const createProperty = async (req, res) => {
   try {
@@ -17,7 +21,27 @@ const createProperty = async (req, res) => {
 
 const getProperties = async (req, res) => {
   try {
-    const properties = await Property.findAll();
+    const properties = await Property.findAll({
+      attributes: ['id', 'address', 'price', 'description', 'size'],
+      include: [
+      {
+        model: PropertyType,
+        attributes: ['id', 'type']
+      },
+      {
+        model: PropertyStatus,
+        attributes: ['id', 'status']
+      },
+      {
+        model: Agent,
+        include: [{
+          model: User,
+          attributes: ['name']
+        }],
+        attributes: ['id', 'user' ]
+      }
+    ]
+    });
     res.status(200).json(properties);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
