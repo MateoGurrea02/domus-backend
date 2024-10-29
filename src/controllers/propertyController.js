@@ -1,6 +1,10 @@
 const Property = require('../models/property')
 const { Op } = require('sequelize');
 const { getAgentId } = require('../functions/getAgentId')
+const PropertyType = require('../models/propertyType')
+const PropertyStatus = require('../models/propertyStatus')
+const Agent = require('../models/agent')
+const User = require('../models/user')
 
 const createProperty = async (req, res) => {
   try {
@@ -17,7 +21,26 @@ const createProperty = async (req, res) => {
 
 const getProperties = async (req, res) => {
   try {
-    const properties = await Property.findAll();
+    const properties = await Property.findAll({
+      attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
+      include: [
+      {
+        model: PropertyType,
+        attributes: ['id', 'type']
+      },
+      {
+        model: PropertyStatus,
+        attributes: ['id', 'status']
+      },
+      {
+        model: Agent,
+        include: [{
+          model: User,
+          attributes: ['id', 'name', 'createdAt', 'updatedAt']
+        }],
+        attributes: ['id', 'createdAt', 'updatedAt']
+      }]
+    });
     res.status(200).json(properties);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
@@ -28,7 +51,28 @@ const getProperties = async (req, res) => {
 const getPropertyById = async (req, res) => {
   try {
     const { id } = req.params;
-    const property = await Property.findByPk(id);
+    const property = await Property.findByPk(id,
+      {
+        attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
+        include: [
+        {
+          model: PropertyType,
+          attributes: ['id', 'type']
+        },
+        {
+          model: PropertyStatus,
+          attributes: ['id', 'status']
+        },
+        {
+          model: Agent,
+          include: [{
+            model: User,
+            attributes: ['id', 'name', 'createdAt', 'updatedAt']
+          }],
+          attributes: ['id', 'createdAt', 'updatedAt']
+        }
+      ]}
+    );
 
     if (!property) {
       return res.status(404).json({ error: 'Propiedad no encontrada' });
@@ -46,6 +90,24 @@ const getPropertiesByAgent = async (req, res) =>{
     const agentId = await getAgentId(req)
 
     const properties = await Property.findAll({
+      attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
+      include: [
+      {
+        model: PropertyType,
+        attributes: ['id', 'type']
+      },
+      {
+        model: PropertyStatus,
+        attributes: ['id', 'status']
+      },
+      {
+        model: Agent,
+        include: [{
+          model: User,
+          attributes: ['id', 'name', 'createdAt', 'updatedAt']
+        }],
+        attributes: ['id', 'createdAt', 'updatedAt']
+      }],
       where: {
         agent: agentId
       }
@@ -140,6 +202,24 @@ const filterProperty = async (req, res) => {
       }
     });
     const properties = await Property.findAll({
+      attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
+      include: [
+      {
+        model: PropertyType,
+        attributes: ['id', 'type']
+      },
+      {
+        model: PropertyStatus,
+        attributes: ['id', 'status']
+      },
+      {
+        model: Agent,
+        include: [{
+          model: User,
+          attributes: ['id', 'name', 'createdAt', 'updatedAt']
+        }],
+        attributes: ['id', 'createdAt', 'updatedAt']
+      }],
       where: where
     });
     return res.status(200).json(properties);

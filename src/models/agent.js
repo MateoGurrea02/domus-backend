@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./sequelize.js').sequelize;
+const User = require('./user.js')
 
 const Agent = sequelize.define('Agent', {
   id: {
@@ -12,7 +13,7 @@ const Agent = sequelize.define('Agent', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'User',
+      model: User,
       key: 'id'
     }
   }
@@ -20,5 +21,7 @@ const Agent = sequelize.define('Agent', {
   tableName: 'Agent',
   timestamps: true,
 });
+
+Agent.belongsTo(User, { foreignKey: 'user' })
 
 module.exports = Agent

@@ -1,5 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./index').sequelize;
+const Property = require('./property')
+const Client = require('./client')
+const SaleStatus = require('./saleStatus')
 
 const Sale = sequelize.define('Sale', {
   id: {
@@ -12,7 +15,7 @@ const Sale = sequelize.define('Sale', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Property',
+      model: Property,
       key: 'id'
     }
   },
@@ -20,7 +23,7 @@ const Sale = sequelize.define('Sale', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Client',
+      model: Client,
       key: 'id'
     }
   },
@@ -36,7 +39,7 @@ const Sale = sequelize.define('Sale', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'SaleStatus',
+      model: SaleStatus,
       key: 'id'
     }
   }
@@ -44,5 +47,9 @@ const Sale = sequelize.define('Sale', {
     tableName: 'Sale',
     timestamps: true,
 });
+
+Sale.belongsTo(Property, { foreignKey: 'property' })
+Sale.belongsTo(Client, { foreignKey: 'client' })
+Sale.belongsTo(SaleStatus, { foreignKey: 'status' })
 
 module.exports = Sale;

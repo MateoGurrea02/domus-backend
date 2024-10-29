@@ -1,5 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./index').sequelize;
+const Property = require('./property')
+const Client = require('./client')
+const RentStatus = require('./rentStatus')
 
 const Rent = sequelize.define('Rent', {
   id: {
@@ -12,7 +15,7 @@ const Rent = sequelize.define('Rent', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Property',
+      model: Property,
       key: 'id'
     }
   },
@@ -20,7 +23,7 @@ const Rent = sequelize.define('Rent', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Client',
+      model: Client,
       key: 'id'
     }
   },
@@ -40,7 +43,7 @@ const Rent = sequelize.define('Rent', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'RentStatus',
+      model: RentStatus,
       key: 'id'
     }
   }
@@ -49,4 +52,7 @@ const Rent = sequelize.define('Rent', {
     timestamps: true,
 });
 
+Rent.belongsTo(Property, { foreignKey: 'property' })
+Rent.belongsTo(Client, { foreignKey: 'client' })
+Rent.belongsTo(RentStatus, { foreignKey: 'status' })
 module.exports = Rent;
