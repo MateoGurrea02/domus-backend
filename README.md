@@ -177,3 +177,12 @@ En las rutas que necesitemos un token para acceder lo enviaremos mediante el hea
 
     3. GET '/saleStatus' para recibir un listado de todos los estados de ventas.
 </details>
+
+<details>
+    
+<summary>9. Imagenes</summary>
+    
+    1. POST '/image' para cargar una imagen a una propiedad. Necesitamos enviar un token de tipo admin o agente y lo siguiente en el body: property (Clave foranea a la propiedad que carguemos la imagen) e image (La imagen que carguemos)
+    
+    2. GET '/image/:property' para recibir un listado de enlaces de imágenes asociadas a una propiedad en particular.
+</details>
