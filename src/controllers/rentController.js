@@ -220,8 +220,10 @@ const deleteRent = async (req, res) =>{
     const { id } = req.params;
     const rent = await Rent.findByPk(id);
     const property = await Property.findByPk(rent.property)
-
-    if (property.agent == agentId){
+    const agent = await Agent.findByPk(agentId)
+    const user = await User.findByPk(agent.user)
+    
+    if (property.agent == agentId || user.type == 1){
       await rent.destroy()
       res.status(200).json({message: 'El alquiler fue borrado'});
     }
