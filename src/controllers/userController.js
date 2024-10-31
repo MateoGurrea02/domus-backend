@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const UserType = require('../models/userType')
+
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const dotenv = require('dotenv');
@@ -20,7 +22,13 @@ const createUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: ['id', 'name', 'email', 'password', 'createdAt', 'updatedAt'],
+      include: [{
+        model: UserType,
+        attributes: ['id', 'type'],
+      }]
+    });
     res.status(200).json(users);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
@@ -31,7 +39,13 @@ const getUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id, {
+      attributes: ['id', 'name', 'email', 'password', 'createdAt', 'updatedAt'],
+      include: [{
+        model: UserType,
+        attributes: ['id', 'type'],
+      }]
+    });
 
     if (!user) {
       return res.status(404).json({ error: 'Usuario no encontrado' });

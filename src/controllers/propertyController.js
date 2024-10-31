@@ -7,6 +7,7 @@ const Agent = require('../models/agent')
 const User = require('../models/user')
 const Sale = require('../models/sale')
 const SaleStatus = require('../models/saleStatus')
+const Client = require('../models/client')
 
 const createProperty = async (req, res) => {
   try {
@@ -122,10 +123,10 @@ const getPropertiesByAgent = async (req, res) =>{
   }
 }
 
-const getPropertiesByClient = async (req, res) => {
+const getPropertiesByUser = async (req, res) => {
   try{
     const id = req.params.id
-    console.log(id)
+    const client = await Client.findAll({where: { user:id }})
     const clientSales = await Sale.findAll({
         attributes: ['id', 'date', 'amount'],
         include: [
@@ -155,7 +156,7 @@ const getPropertiesByClient = async (req, res) => {
           attributes: ['id', 'type']
         }],
       where:{
-        client: id
+        client: client[0].id
       }
     })
 
@@ -274,4 +275,4 @@ const filterProperty = async (req, res) => {
   }
 }
 
-module.exports = { createProperty, getProperties, getPropertyById, getPropertiesByAgent, getPropertiesByClient, deleteProperty, filterProperty, updateProperty };
+module.exports = { createProperty, getProperties, getPropertyById, getPropertiesByAgent, getPropertiesByUser, deleteProperty, filterProperty, updateProperty };

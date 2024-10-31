@@ -127,7 +127,7 @@ En las rutas que necesitemos un token para acceder lo enviaremos mediante el hea
     
     7. DELETE 'properties/:propertyId' para borrar una propiedad. Necesitamos enviar un token de tipo agente, el cual debe ser el dueño de la propiedad.
 
-    8. get '/properties/client/:id' para recibir un listado de las propiedades compradas por el cliente seleccionado.
+    8. GET '/properties/user/:id' para recibir un listado de las propiedades compradas por el cliente seleccionado, el id a pasar es el del usuario del cliente.
 </details>
 
 <details>
