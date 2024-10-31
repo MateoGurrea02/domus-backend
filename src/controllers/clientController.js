@@ -61,4 +61,45 @@ const getClientById = async (req, res) => {
   }
 };
 
-module.exports = { createClient, getClients, getClientById };
+const updateClient = async (req, res) => {
+  try {
+    const { id, dni, phoneNumber, name, email } = req.body;
+    const client = await Client.findByPk(id)
+
+    client.set({
+      dni: dni,
+      phoneNumber: phoneNumber,
+    })
+
+    await client.save()
+    
+    const user = await User.findByPk(client.user)
+
+    user.set({
+      name: name,
+      email: email,
+    })
+
+    await user.save()
+
+    res.status(200).json({client: client, user:user});
+  } catch (error) {
+    console.error(error); // Imprime el error en la consola
+    res.status(500).json({ error: error });
+  }
+}
+
+const deleteClient = async (req, res) =>{
+  try {
+    const id = req.params.id
+    const client = await Client.findByPk(id)
+    await client.destroy()
+
+    res.status(200).json({ message: 'Cliente borrado exitosamente' })
+  } catch(error){
+    console.error(error)
+    res.status(500).json({ error: error })
+  }
+}
+
+module.exports = { createClient, getClients, getClientById, updateClient, deleteClient };

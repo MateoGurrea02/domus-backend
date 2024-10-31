@@ -88,7 +88,11 @@ En las rutas que necesitemos un token para acceder lo enviaremos mediante el hea
     
     2. GET '/clients' para recibir un listado de todos los clientes. Necesitamos token de usuario tipo admin o de agente.
     
-    3. GET `/clients/:id` para recibir los datos de un cliente en específico.
+    3. GET '/clients/:id' para recibir los datos de un cliente en específico.
+
+    4. PUT '/clients/update' para actualizar la información de un cliente. Necesitamos enviar un token de tipo admin y enviar lo siguiente en el body: "id", "dni", "phoneNumber", "name", "email".
+
+    5. DELETE '/clients/:id' para borrar un cliente. Necesitamos enviar un token de tipo admin.
 </details>
 
 <details>
@@ -122,6 +126,8 @@ En las rutas que necesitemos un token para acceder lo enviaremos mediante el hea
     6. PUT '/properties/update/:id' para actualizar una propiedad. Necesitamos enviar un token de tipo agente, el cual debe ser el dueño de la propiedad y lo siguiente en el body: "address", "propertyType" (Clave foránea del tipo de propiedad), "price", "status" (Clave foránea al estado de la propiedad), "description", "size".
     
     7. DELETE 'properties/:propertyId' para borrar una propiedad. Necesitamos enviar un token de tipo agente, el cual debe ser el dueño de la propiedad.
+
+    8. get '/properties/client/:id' para recibir un listado de las propiedades compradas por el cliente seleccionado.
 </details>
 
 <details>
