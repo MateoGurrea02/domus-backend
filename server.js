@@ -13,6 +13,8 @@ const agentRoutes = require('./src/routes/agentRoutes')
 const clientRoutes = require('./src/routes/clientRoutes')
 const rentRoutes = require('./src/routes/rentRoutes')
 const saleRoutes = require('./src/routes/saleRoutes')
+const typeRoutes = require('./src/routes/typesRoutes')
+const statusRoutes = require('./src/routes/statusRoutes')
 const imageRoutes = require('./src/routes/imageRoutes')
 
 dotenv.config();
@@ -28,6 +30,8 @@ app.use('/api', agentRoutes);
 app.use('/api', clientRoutes);
 app.use('/api', rentRoutes)
 app.use('/api', saleRoutes)
+app.use('/api', typeRoutes)
+app.use('/api', statusRoutes)
 app.use('/api', imageRoutes)
 app.use('/media/img', express.static(path.join(__dirname, 'media/img')));
 

@@ -1,5 +1,11 @@
 const Rent = require('../models/rent')
 const Property = require('../models/property')
+const Client = require('../models/client')
+const RentStatus = require('../models/rentStatus')
+const PropertyType = require('../models/propertyType')
+const PropertyStatus = require('../models/propertyStatus')
+const Agent = require('../models/agent')
+const User = require('../models/user')
 const { getAgentId } = require('../functions/getAgentId')
 
 const createRent = async (req, res) => {
@@ -25,7 +31,43 @@ const createRent = async (req, res) => {
 
 const getRents = async (req, res) => {
   try {
-    const rents = await Rent.findAll();
+    const rents = await Rent.findAll({
+      attributes: ['id', 'startDate', 'finishDate', 'monthlyAmount'],
+      include: [
+      {
+        model: Property,
+        attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
+        include: [
+        {
+          model: PropertyType,
+          attributes: ['id', 'type']
+        },
+        {
+          model: PropertyStatus,
+          attributes: ['id', 'status']
+        },
+        {
+          model: Agent,
+          include: [{
+            model: User,
+            attributes: ['id', 'name', 'createdAt', 'updatedAt']
+          }],
+          attributes: ['id', 'createdAt', 'updatedAt']
+        }
+      ]},
+      {
+        model: RentStatus,
+        attributes: ['id', 'type']
+      },
+      {
+        model: Client,
+        include: [{
+          model: User,
+          attributes: ['name', 'createdAt', 'updatedAt']
+        }],
+        attributes: ['id', 'user', 'createdAt', 'updatedAt']
+      }]
+    });
     res.status(200).json(rents);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
@@ -36,7 +78,43 @@ const getRents = async (req, res) => {
 const getRentById = async (req, res) => {
   try {
     const { id } = req.params;
-    const rent = await Rent.findByPk(id);
+    const rent = await Rent.findByPk(id,{
+      attributes: ['id', 'startDate', 'finishDate', 'monthlyAmount'],
+      include: [
+      {
+        model: Property,
+        attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
+        include: [
+        {
+          model: PropertyType,
+          attributes: ['id', 'type']
+        },
+        {
+          model: PropertyStatus,
+          attributes: ['id', 'status']
+        },
+        {
+          model: Agent,
+          include: [{
+            model: User,
+            attributes: ['id', 'name', 'createdAt', 'updatedAt']
+          }],
+          attributes: ['id', 'createdAt', 'updatedAt']
+        }
+      ]},
+      {
+        model: RentStatus,
+        attributes: ['id', 'type']
+      },
+      {
+        model: Client,
+        include: [{
+          model: User,
+          attributes: ['name', 'createdAt', 'updatedAt']
+        }],
+        attributes: ['id', 'user', 'createdAt', 'updatedAt']
+      }]
+    });
 
     if (!rent) {
       return res.status(404).json({ error: 'Alquiler no encontrado' });
@@ -65,6 +143,33 @@ const getRentsByAgent = async (req, res) =>{
     })
 
     const rents = await Rent.findAll({
+      attributes: ['id', 'startDate', 'finishDate', 'monthlyAmount'],
+      include: [
+      {
+        model: Property,
+        attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
+        include: [
+        {
+          model: PropertyType,
+          attributes: ['id', 'type']
+        },
+        {
+          model: PropertyStatus,
+          attributes: ['id', 'status']
+        }
+       ]},
+      {
+        model: RentStatus,
+        attributes: ['id', 'type']
+      },
+      {
+        model: Client,
+        include: [{
+          model: User,
+          attributes: ['name', 'createdAt', 'updatedAt']
+        }],
+        attributes: ['id', 'user', 'createdAt', 'updatedAt']
+      }],
       where: {
         property: propertiesId
       }
@@ -73,7 +178,7 @@ const getRentsByAgent = async (req, res) =>{
     res.status(200).json(rents);
   }catch (error){
     console.error(error); // Imprime el error en la consola
-    res.status(500).json({ error: 'Error obteniendo los alquileres' });
+    res.status(500).json({ error: error });
   }
 }
 
