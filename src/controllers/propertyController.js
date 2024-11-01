@@ -1,3 +1,4 @@
+const path = require('path')
 const Property = require('../models/property')
 const { Op } = require('sequelize');
 const { getAgentId } = require('../functions/getAgentId')
@@ -49,6 +50,13 @@ const getProperties = async (req, res) => {
         attributes: ['id', 'path']
       }]
     });
+
+    properties.forEach(property => {
+      property.ImageProperties.forEach(image => {
+        image.path = `${req.protocol}://${req.get('host')}/media/img/${image.path}`;
+      });
+    });
+
     res.status(200).json(properties);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
@@ -90,6 +98,10 @@ const getPropertyById = async (req, res) => {
       return res.status(404).json({ error: 'Propiedad no encontrada' });
     }
 
+      property.ImageProperties.forEach(image => {
+        image.path = `${req.protocol}://${req.get('host')}/media/img/${image.path}`;
+      });
+
     res.status(200).json(property);
   } catch (error) {
     console.error(error);
@@ -128,6 +140,12 @@ const getPropertiesByAgent = async (req, res) =>{
         agent: agentId
       }
     })
+
+    properties.forEach(property => {
+      property.ImageProperties.forEach(image => {
+        image.path = `${req.protocol}://${req.get('host')}/media/img/${image.path}`;
+      });
+    });
 
     res.status(200).json(properties);
   }catch (error){
@@ -176,6 +194,12 @@ const getPropertiesByUser = async (req, res) => {
         client: client[0].id
       }
     })
+
+    clientSales.forEach(sale => {
+      sale.Property.ImageProperties.forEach(image => {
+        image.path = `${req.protocol}://${req.get('host')}/media/img/${image.path}`;
+      });
+    });
 
     res.status(200).json(clientSales);
   }catch (error){
@@ -290,6 +314,12 @@ const filterProperty = async (req, res) => {
       }],
       where: where
     });
+    properties.forEach(property => {
+      property.ImageProperties.forEach(image => {
+        image.path = `${req.protocol}://${req.get('host')}/media/img/${image.path}`;
+      });
+    });
+    
     return res.status(200).json(properties);
   } catch (error) {
     return res.status(500).json({ message: 'Server error', error: error.message });
