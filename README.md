@@ -110,7 +110,7 @@ En las rutas que necesitemos un token para acceder lo enviaremos mediante el hea
     
 <summary>4. Propiedades</summary>
 
-    1. POST '/properties' para registrar una nueva propiedad. Necesitamos enviar un token de tipo agente y lo siguiente en el body: "address", "propertyType" (Clave foránea del tipo de propiedad), "price", "status" (Clave foránea al estado de la propiedad), "description", "size".
+    1. POST '/properties' para registrar una nueva propiedad. Necesitamos enviar un token de tipo agente y lo siguiente en el body: "address", "propertyType" (Clave foránea del tipo de propiedad), "price", "status" (Clave foránea al estado de la propiedad), "description", "size", "title", "rating", "bedrooms", "bathrooms", "maxResidents".
     
     2. POST '/properties/filter' para recibir un listado filtrado de propiedades. Podemos enviar lo siguiente en el body:
     "price" Enviamos un JSON con los siguientes atributos: "gte" para precio mínimo y "lte" para precio máximo.
