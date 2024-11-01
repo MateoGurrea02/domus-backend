@@ -49,6 +49,21 @@ module.exports = {
         },
         onDelete: 'CASCADE', 
       },
+      title: {
+        type: Sequelize.STRING
+      },
+      rating: {
+        type: Sequelize.INTEGER,
+      },
+      bedrooms: {
+        type: Sequelize.INTEGER,
+      },
+      bathrooms: {
+        type: Sequelize.INTEGER,
+      },
+      maxResidents:{
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

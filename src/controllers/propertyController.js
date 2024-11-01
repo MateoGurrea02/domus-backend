@@ -15,8 +15,8 @@ const createProperty = async (req, res) => {
   try {
     const agent = await getAgentId(req)
     
-    const { address, propertyType, price, status, description, size } = req.body;
-    const property = await Property.create({ address, propertyType, price, status, description, size, agent });
+    const { address, propertyType, price, status, description, size, title, rating, bedrooms, bathrooms, maxResidents } = req.body;
+    const property = await Property.create({ address, propertyType, price, status, description, size, agent, title, rating, bedrooms, bathrooms, maxResidents });
     res.status(201).json(property);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
@@ -27,7 +27,7 @@ const createProperty = async (req, res) => {
 const getProperties = async (req, res) => {
   try {
     const properties = await Property.findAll({
-      attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'address', 'price', 'description', 'size', 'title', 'rating', 'bedrooms', 'bathrooms', 'maxResidents', 'createdAt', 'updatedAt'],
       include: [
       {
         model: PropertyType,
@@ -69,7 +69,7 @@ const getPropertyById = async (req, res) => {
     const { id } = req.params;
     const property = await Property.findByPk(id,
       {
-        attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
+        attributes: ['id', 'address', 'price', 'description', 'size', 'title', 'rating', 'bedrooms', 'bathrooms', 'maxResidents', 'createdAt', 'updatedAt'],
         include: [
         {
           model: PropertyType,
@@ -114,7 +114,7 @@ const getPropertiesByAgent = async (req, res) =>{
     const agentId = await getAgentId(req)
 
     const properties = await Property.findAll({
-      attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'address', 'price', 'description', 'size', 'title', 'rating', 'bedrooms', 'bathrooms', 'maxResidents', 'createdAt', 'updatedAt'],
       include: [
       {
         model: PropertyType,
@@ -163,7 +163,7 @@ const getPropertiesByUser = async (req, res) => {
         include: [
         {
           model: Property,
-          attributes: ['id', 'address', 'price', 'description', 'size', 'createdAt', 'updatedAt'],
+          attributes: ['id', 'address', 'price', 'description', 'size', 'title', 'rating', 'bedrooms', 'bathrooms', 'maxResidents', 'createdAt', 'updatedAt'],
           include: [
           {
             model: PropertyType,
@@ -214,7 +214,7 @@ const updateProperty = async (req, res) => {
     const { id } = req.params;
     const property = await Property.findByPk(id);
     
-    const { address, propertyType, price, status, description, size } = req.body;
+    const { address, propertyType, price, status, description, size, title, rating, bedrooms, bathrooms, maxResidents } = req.body;
 
     if (property.agent == agentId){
       property.set({
@@ -224,6 +224,11 @@ const updateProperty = async (req, res) => {
         status: status,
         description: description,
         size: size,
+        title: title,
+        rating: rating, 
+        bedrooms: bedrooms,
+        bathrooms: bathrooms,
+        maxResidents: maxResidents
       })
       await property.save()
       res.status(200).json(property);
