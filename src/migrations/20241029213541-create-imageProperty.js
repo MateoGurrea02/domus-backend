@@ -16,7 +16,8 @@ module.exports = {
         references: {
           model: 'Property',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE',
       },
       path: {
         type: Sequelize.STRING,

@@ -49,6 +49,21 @@ const Property = sequelize.define('Property', {
       model: Agent,
       key: 'id'
     }
+  },
+  title: {
+    type: DataTypes.STRING
+  },
+  rating: {
+    type: DataTypes.INTEGER,
+  },
+  bedrooms: {
+    type: DataTypes.INTEGER,
+  },
+  bathrooms: {
+    type: DataTypes.INTEGER,
+  },
+  maxResidents:{
+    type: DataTypes.INTEGER,
   }
 }, {
   tableName: 'Property',
