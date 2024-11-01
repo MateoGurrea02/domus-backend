@@ -8,6 +8,7 @@ const User = require('../models/user')
 const Sale = require('../models/sale')
 const SaleStatus = require('../models/saleStatus')
 const Client = require('../models/client')
+const ImageProperty = require('../models/imageProperty')
 
 const createProperty = async (req, res) => {
   try {
@@ -42,6 +43,10 @@ const getProperties = async (req, res) => {
           attributes: ['id', 'name', 'createdAt', 'updatedAt']
         }],
         attributes: ['id', 'createdAt', 'updatedAt']
+      },
+      {
+        model: ImageProperty,
+        attributes: ['id', 'path']
       }]
     });
     res.status(200).json(properties);
@@ -73,6 +78,10 @@ const getPropertyById = async (req, res) => {
             attributes: ['id', 'name', 'createdAt', 'updatedAt']
           }],
           attributes: ['id', 'createdAt', 'updatedAt']
+        },
+        {
+          model: ImageProperty,
+          attributes: ['id', 'path']
         }
       ]}
     );
@@ -110,6 +119,10 @@ const getPropertiesByAgent = async (req, res) =>{
           attributes: ['id', 'name', 'createdAt', 'updatedAt']
         }],
         attributes: ['id', 'createdAt', 'updatedAt']
+      },
+      {
+        model: ImageProperty,
+        attributes: ['id', 'path']
       }],
       where: {
         agent: agentId
@@ -149,6 +162,10 @@ const getPropertiesByUser = async (req, res) => {
               attributes: ['id', 'name', 'createdAt', 'updatedAt']
             }],
             attributes: ['id', 'createdAt', 'updatedAt']
+          },
+          {
+            model: ImageProperty,
+            attributes: ['id', 'path']
           }
         ]},
         {
@@ -266,6 +283,10 @@ const filterProperty = async (req, res) => {
           attributes: ['id', 'name', 'createdAt', 'updatedAt']
         }],
         attributes: ['id', 'createdAt', 'updatedAt']
+      },
+      {
+        model: ImageProperty,
+        attributes: ['id', 'path']
       }],
       where: where
     });

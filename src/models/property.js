@@ -3,6 +3,7 @@ const sequelize = require('./index').sequelize;
 const PropertyType = require('./propertyType');  
 const PropertyStatus = require('./propertyStatus')
 const Agent = require('./agent')
+const ImageProperty = require('./imageProperty')
 
 const Property = sequelize.define('Property', {
   id: {
@@ -62,5 +63,8 @@ PropertyStatus.hasMany(Property, { foreignKey: 'status' });
 
 Property.belongsTo(Agent, { foreignKey: 'agent' });
 Agent.hasMany(Property, { foreignKey: 'agent' });
+
+Property.hasMany(ImageProperty, { foreignKey: 'property'} )
+
 
 module.exports = Property;
