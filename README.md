@@ -104,6 +104,8 @@ En las rutas que necesitemos un token para acceder lo enviaremos mediante el hea
     2. GET '/agents' para recibir un listado de todos los agentes. Nececsitamos enviar un token de tipo admin.
     
     3. GET '/agents/:id' para recibir los datos de un agente.
+
+    4. DELETE '/agents/:id' para borrar un agente.
 </details>
 
 <details>
