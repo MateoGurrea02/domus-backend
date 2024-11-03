@@ -2,6 +2,7 @@ const path = require('path')
 const Property = require('../models/property')
 const { Op } = require('sequelize');
 const { getAgentId } = require('../functions/getAgentId')
+const { getUserType } = require('../functions/getUserType')
 const PropertyType = require('../models/propertyType')
 const PropertyStatus = require('../models/propertyStatus')
 const Agent = require('../models/agent')
@@ -244,11 +245,12 @@ const updateProperty = async (req, res) => {
 
 const deleteProperty = async (req, res) => {
   try {
-    const agentId = await getAgentId(req)
-
     const { propertyId } = req.params;
     const property = await Property.findByPk(propertyId)
-    if (agentId == property.agent){
+    const agentId = await getAgentId(req)
+    const userType = await getUserType(req)
+
+    if (agentId == property.agent || userType == 1){
       Property.destroy({
         where: {
           id: propertyId

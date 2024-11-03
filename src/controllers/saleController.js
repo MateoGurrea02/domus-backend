@@ -1,6 +1,7 @@
 const Sale = require('../models/sale')
 const Property = require('../models/property')
 const { getAgentId } = require('../functions/getAgentId')
+const { getUserType } = require('../functions/getUserType')
 const Client = require('../models/client')
 const SaleStatus = require('../models/saleStatus')
 const PropertyType = require('../models/propertyType')
@@ -221,10 +222,9 @@ const deleteSale = async (req, res) =>{
     const { id } = req.params;
     const sale = await Sale.findByPk(id);
     const property = await Property.findByPk(sale.property)
-    const agent = await Agent.findByPk(agentId)
-    const user = await User.findByPk(agent.user)
+    const userType = await getUserType(req)
     
-    if (property.agent == agentId || user.type == 1){
+    if (property.agent == agentId || userType == 1){
       await sale.destroy()
       res.status(200).json({message: 'La venta fue borrada'});
     }

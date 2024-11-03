@@ -57,4 +57,16 @@ const getAgentById = async (req, res) => {
   }
 };
 
-module.exports = { createAgent, getAgents, getAgentById };
+const deleteAgent = async (req, res) => {
+  try{
+    const { id } = req.params;
+    const agent = await Agent.findByPk(id)
+    await agent.destroy()
+    return res.status(200).json({ mensaje: 'Agente borrado' })
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error obteniendo al agente' });
+  }
+}
+
+module.exports = { createAgent, getAgents, getAgentById, deleteAgent };

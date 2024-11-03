@@ -7,6 +7,7 @@ const PropertyStatus = require('../models/propertyStatus')
 const Agent = require('../models/agent')
 const User = require('../models/user')
 const { getAgentId } = require('../functions/getAgentId')
+const { getUserType } = require('../functions/getUserType')
 
 const createRent = async (req, res) => {
   try {
@@ -220,10 +221,9 @@ const deleteRent = async (req, res) =>{
     const { id } = req.params;
     const rent = await Rent.findByPk(id);
     const property = await Property.findByPk(rent.property)
-    const agent = await Agent.findByPk(agentId)
-    const user = await User.findByPk(agent.user)
+    const userType = await getUserType(req)
     
-    if (property.agent == agentId || user.type == 1){
+    if (property.agent == agentId || userType == 1){
       await rent.destroy()
       res.status(200).json({message: 'El alquiler fue borrado'});
     }
