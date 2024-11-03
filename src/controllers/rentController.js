@@ -7,6 +7,7 @@ const PropertyStatus = require('../models/propertyStatus')
 const Agent = require('../models/agent')
 const User = require('../models/user')
 const { getAgentId } = require('../functions/getAgentId')
+const { getUserType } = require('../functions/getUserType')
 
 const createRent = async (req, res) => {
   try {
