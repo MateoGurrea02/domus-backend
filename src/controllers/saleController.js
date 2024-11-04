@@ -19,6 +19,8 @@ const createSale = async (req, res) => {
 
     if (propertyModel.agent == agentId){
       const sale = await Sale.create({ property, client, date, amount, status });
+      propertyModel.set({ status:2 })
+      await propertyModel.save()
       res.status(201).json(sale);
     }
     else{
