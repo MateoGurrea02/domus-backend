@@ -25,7 +25,8 @@ DB_USERNAME = root - usuario de mysql personal
 DB_PASSWORD = root1234 - contraseña de mysql personal  
 DB_DATABASE = nombre_de_tu_db - nombre de base de datos de mysql personal   
 DB_HOST = 127.0.0.1    
-PORT = 4000   
+PORT = 4000
+JWT_SECRET = 'secret'
 ```
 
 ### 4. Crea la base de datos en MySQL:
