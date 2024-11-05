@@ -6,6 +6,11 @@ const createAgent = async (req, res) => {
   try {
     const { user } = req.body;
     const agent = await Agent.create({ user });
+    const userModel = await User.findByPk(id=user)
+    userModel.set({
+      type: 2
+    })
+    await userModel.save()
     res.status(201).json(agent);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
