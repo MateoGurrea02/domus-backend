@@ -94,6 +94,11 @@ const deleteClient = async (req, res) =>{
     const id = req.params.id
     const client = await Client.findByPk(id)
     await client.destroy()
+    const userModel = await User.findByPk(id=id)
+    userModel.set({
+      type: 4
+    })
+    await userModel.save()
 
     res.status(200).json({ message: 'Cliente borrado exitosamente' })
   } catch(error){

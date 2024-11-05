@@ -11,6 +11,7 @@ const createAgent = async (req, res) => {
       type: 2
     })
     await userModel.save()
+
     res.status(201).json(agent);
   } catch (error) {
     console.error(error); // Imprime el error en la consola
@@ -67,6 +68,12 @@ const deleteAgent = async (req, res) => {
     const { id } = req.params;
     const agent = await Agent.findByPk(id)
     await agent.destroy()
+    const userModel = await User.findByPk(id=id)
+    userModel.set({
+      type: 4
+    })
+    await userModel.save()
+
     return res.status(200).json({ mensaje: 'Agente borrado' })
   } catch (error) {
     console.error(error);
