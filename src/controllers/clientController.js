@@ -93,7 +93,7 @@ const deleteClient = async (req, res) =>{
   try {
     const id = req.params.id
     const client = await Client.findByPk(id)
-    const model = await User.findByPk(agent.user)
+    const model = await User.findByPk(client.user)
     await client.destroy()
     model.set({
       type: 4
