@@ -67,12 +67,12 @@ const deleteAgent = async (req, res) => {
   try{
     const { id } = req.params;
     const agent = await Agent.findByPk(id)
+    const model = await User.findByPk(agent.user)
     await agent.destroy()
-    const userModel = await User.findByPk(id=id)
-    userModel.set({
+    model.set({
       type: 4
     })
-    await userModel.save()
+    await model.save()
 
     return res.status(200).json({ mensaje: 'Agente borrado' })
   } catch (error) {
